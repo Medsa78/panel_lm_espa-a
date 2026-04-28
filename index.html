@@ -2,33 +2,33 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>WORX · Dashboard Comercial LM</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>WORX · Dashboard LM España</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap');
-:root {
-  --orange:#F47920; --orange2:#FF9A50; --black:#1C1C1C; --bg:#F4F3EF;
-  --card:#FFF; --border:#E4E0D8; --muted:#7A7A7A;
-  --green:#22C55E; --red:#EF4444; --yellow:#F59E0B; --lm:#78BE20;
-  --sh:0 2px 10px rgba(0,0,0,0.07); --sh2:0 6px 28px rgba(0,0,0,0.11);
+:root{
+  --orange:#F47920;--orange2:#FF9A50;--black:#1C1C1C;--bg:#F4F3EF;
+  --card:#FFF;--border:#E4E0D8;--muted:#7A7A7A;
+  --green:#22C55E;--red:#EF4444;--yellow:#F59E0B;--lm:#78BE20;
+  --sh:0 2px 10px rgba(0,0,0,.07);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--black);font-size:14px}
 
-/* HEADER */
-.hdr{background:var(--black);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.4)}
+/* HEADER – logos en blanco, texto negro resto */
+.hdr{background:#fff;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.1);border-bottom:3px solid var(--orange)}
 .hdr-logos{display:flex;align-items:center;gap:12px}
-.hdr-logos img{height:32px;object-fit:contain}
-.hdr-logos img.lm{height:36px;filter:brightness(0) invert(1) opacity(.9)}
-.hdr-sep{width:1px;height:24px;background:rgba(255,255,255,0.18)}
+.hdr-logos img{height:30px;object-fit:contain}
+.hdr-logos img.lm-img{height:34px}
+.hdr-sep{width:1px;height:24px;background:#ddd}
 .hdr-mid{position:absolute;left:50%;transform:translateX(-50%);text-align:center}
-.hdr-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:#fff;letter-spacing:1.5px;text-transform:uppercase;line-height:1.1}
-.hdr-sub{font-size:9px;color:rgba(255,255,255,0.4);letter-spacing:.5px}
-.hdr-badge{background:var(--orange);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;padding:4px 10px;border-radius:4px;letter-spacing:.8px;white-space:nowrap}
+.hdr-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:var(--black);letter-spacing:1.5px;text-transform:uppercase;line-height:1.1}
+.hdr-sub{font-size:9px;color:var(--muted);letter-spacing:.5px}
+.hdr-badge{background:var(--orange);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;padding:4px 10px;border-radius:4px;letter-spacing:.8px}
 
 /* NAV */
-.nav{background:#fff;border-bottom:2.5px solid var(--orange);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:56px;z-index:190;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.nav{background:#fff;border-bottom:2.5px solid var(--orange);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:56px;z-index:190;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .nav::-webkit-scrollbar{display:none}
 .nb{flex-shrink:0;padding:11px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2.5px;transition:all .2s;white-space:nowrap}
 .nb.on{color:var(--orange);border-bottom-color:var(--orange)}
@@ -36,24 +36,25 @@ body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--black);fon
 /* FILTER BAR */
 .fbar{background:#fff;padding:8px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
 .flbl{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.8px;white-space:nowrap}
-select.fs{border:1.5px solid var(--border);border-radius:6px;padding:5px 8px;font-family:'Barlow',sans-serif;font-size:12px;background:#fff;color:var(--black);outline:none;min-width:130px;max-width:170px}
+select.fs{border:1.5px solid var(--border);border-radius:6px;padding:5px 8px;font-family:'Barlow',sans-serif;font-size:12px;background:#fff;color:var(--black);outline:none;min-width:130px;max-width:175px}
 select.fs:focus{border-color:var(--orange)}
 .freset{padding:5px 10px;border:1.5px solid var(--border);border-radius:5px;background:#fff;font-size:11px;font-weight:600;cursor:pointer;color:var(--muted)}
 .freset:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+.finfo{font-size:10px;color:var(--orange);font-weight:600;padding:2px 8px;background:#FFF3EA;border-radius:4px;display:none}
 
 /* MAIN */
 .main{padding:14px;max-width:1400px;margin:0 auto}
 .sec{display:none}.sec.on{display:block}
 
 /* KPIs */
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
 .kpi{background:var(--card);border-radius:10px;padding:14px;box-shadow:var(--sh);border-left:4px solid var(--border)}
 .kpi.o{border-left-color:var(--orange)}.kpi.g{border-left-color:var(--green)}.kpi.l{border-left-color:var(--lm)}.kpi.r{border-left-color:var(--red)}
 .kpi-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:5px}
 .kpi-v{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;line-height:1}
 .kpi-s{font-size:10px;color:var(--muted);margin-top:2px}
 .pill{display:inline-flex;align-items:center;gap:3px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;margin-top:4px}
-.pu{background:#dcfce7;color:#16a34a}.pd{background:#fee2e2;color:#dc2626}.pf{background:#fef3c7;color:#d97706}.pg{background:#f3f4f6;color:#6b7280}
+.pu{background:#dcfce7;color:#16a34a}.pd{background:#fee2e2;color:#dc2626}.pf{background:#fef3c7;color:#d97706}.pg{background:#f3f4f6;color:#6b7280}.po{background:#FFF3EA;color:#e86a0a}
 
 /* CARDS */
 .card{background:var(--card);border-radius:10px;padding:14px;box-shadow:var(--sh);margin-bottom:12px}
@@ -62,12 +63,10 @@ select.fs:focus{border-color:var(--orange)}
 .cnote{font-size:10px;color:var(--muted)}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 @media(max-width:680px){.g2{grid-template-columns:1fr}}
-
-/* CHARTS */
-.ch{position:relative;height:210px}.chl{position:relative;height:270px}.chs{position:relative;height:150px}
+.ch{position:relative;height:210px}.chl{position:relative;height:270px}
 
 /* TABLES */
-.tw{overflow-x:auto;overflow-y:auto;max-height:440px;-webkit-overflow-scrolling:touch}
+.tw{overflow-x:auto;overflow-y:auto;max-height:460px;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:collapse;font-size:12px;min-width:480px}
 thead th{background:var(--black);color:#fff;padding:8px 9px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;position:sticky;top:0;z-index:5}
 thead th.r{text-align:right}
@@ -75,10 +74,11 @@ tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
 tbody tr:hover{background:#FFF8F3}
 td{padding:7px 9px;white-space:nowrap}
 td.r{text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:13px}
-td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.emp{padding:30px;text-align:center;color:var(--muted);font-style:italic;font-size:13px}
 
 /* INPUTS */
-.srch{border:1.5px solid var(--border);border-radius:6px;padding:5px 9px;font-family:'Barlow',sans-serif;font-size:12px;outline:none;width:165px;background:var(--bg)}
+.srch{border:1.5px solid var(--border);border-radius:6px;padding:5px 9px;font-family:'Barlow',sans-serif;font-size:12px;outline:none;width:160px;background:var(--bg)}
 .srch:focus{border-color:var(--orange);background:#fff}
 .tbtn{padding:4px 10px;border:1.5px solid var(--border);border-radius:5px;background:#fff;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;cursor:pointer;color:var(--muted);transition:all .15s}
 .tbtn.on{background:var(--orange);border-color:var(--orange);color:#fff}
@@ -86,9 +86,9 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 /* ACCIONES */
 .acc{background:linear-gradient(135deg,#1C1C1C,#2a2a2a);border-radius:10px;padding:14px;margin-bottom:12px}
 .at{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:8px}
-.ai{display:flex;gap:9px;align-items:flex-start;padding:8px 9px;background:rgba(255,255,255,0.05);border-radius:7px;border-left:3px solid var(--orange);margin-bottom:7px}
+.ai{display:flex;gap:9px;align-items:flex-start;padding:8px 9px;background:rgba(255,255,255,.05);border-radius:7px;border-left:3px solid var(--orange);margin-bottom:7px}
 .ai-i{font-size:14px;flex-shrink:0;margin-top:1px}
-.ai-t{font-size:12px;color:rgba(255,255,255,0.88);line-height:1.4}
+.ai-t{font-size:12px;color:rgba(255,255,255,.88);line-height:1.4}
 .ai-t strong{color:var(--orange2)}
 
 /* DIAS BAR */
@@ -98,29 +98,25 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .db-n{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;min-width:30px;text-align:right}
 
 /* LEGEND */
-.leg{display:flex;gap:12px;font-size:11px;margin-bottom:8px}
-.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.leg{display:flex;gap:12px;font-size:11px;margin-bottom:8px;flex-wrap:wrap}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;flex-shrink:0}
 .dg{background:var(--green)}.dy{background:var(--yellow)}.dr{background:var(--red)}
 
-@media(max-width:580px){
-  .hdr-mid{display:none}
-  .kpis{grid-template-columns:1fr 1fr}
-  .hdr{padding:0 10px}
-  .main{padding:10px}
-}
+.no-data{padding:40px 20px;text-align:center;color:var(--muted)}
+@media(max-width:580px){.hdr-mid{display:none}.kpis{grid-template-columns:1fr 1fr}.hdr{padding:0 10px}.main{padding:10px}}
 </style>
 </head>
 <body>
 
 <header class="hdr">
   <div class="hdr-logos">
-    <img src="worx.jpg" alt="WORX">
+    <img src="worx.jpg" alt="WORX" onerror="this.style.display='none'">
     <div class="hdr-sep"></div>
-    <img src="lm.jpg" alt="Leroy Merlin" class="lm">
+    <img src="lm.jpg" class="lm-img" alt="Leroy Merlin" onerror="this.style.display='none'">
   </div>
   <div class="hdr-mid">
     <div class="hdr-title">Dashboard Comercial</div>
-    <div class="hdr-sub">WORX · Leroy Merlin España · LM SPAIN</div>
+    <div class="hdr-sub">WORX · Leroy Merlin España</div>
   </div>
   <div class="hdr-badge">YTD'26</div>
 </header>
@@ -134,35 +130,27 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   <button class="nb" onclick="show('stock',this)">📋 Stock</button>
 </nav>
 
-<!-- FILTROS GLOBALES -->
 <div class="fbar">
   <span class="flbl">Vendedor</span>
-  <select class="fs" id="fC" onchange="onFCial()">
-    <option value="">Todos</option>
-  </select>
+  <select class="fs" id="fC" onchange="onFCial()"><option value="">Todos</option></select>
   <span class="flbl">Tienda</span>
-  <select class="fs" id="fT" onchange="applyF()">
-    <option value="">Todas</option>
-  </select>
+  <select class="fs" id="fT" onchange="applyF()"><option value="">Todas</option></select>
   <span class="flbl">Familia</span>
-  <select class="fs" id="fF" onchange="applyF()">
-    <option value="">Todas</option>
-  </select>
+  <select class="fs" id="fF" onchange="applyF()"><option value="">Todas</option></select>
   <span class="flbl">Gama</span>
-  <select class="fs" id="fG" onchange="applyF()">
-    <option value="">Todas</option>
-  </select>
+  <select class="fs" id="fG" onchange="applyF()"><option value="">Todas</option></select>
   <button class="freset" onclick="resetF()">✕ Limpiar</button>
+  <span class="finfo" id="finfo"></span>
 </div>
 
 <div class="main">
 
 <!-- ══ RESUMEN ══ -->
 <div id="sec-resumen" class="sec on">
-  <div class="kpis" id="kpi-main"></div>
-  <div class="acc" id="acc-main"></div>
+  <div class="kpis" id="kpi-res"></div>
+  <div class="acc" id="acc-res"></div>
   <div class="g2">
-    <div class="card"><div class="chdr"><span class="ctitle">📈 Sell In Mensual</span><span class="cnote">€ neto LM Spain</span></div><div class="ch"><canvas id="cSI"></canvas></div></div>
+    <div class="card"><div class="chdr"><span class="ctitle">📈 Sell In Mensual</span><span class="cnote">€ neto · LM Spain</span></div><div class="ch"><canvas id="cSI"></canvas></div></div>
     <div class="card"><div class="chdr"><span class="ctitle">🛒 Sell Out Familia</span><span class="cnote">YTD'25 vs '26</span></div><div class="ch"><canvas id="cFam"></canvas></div></div>
   </div>
   <div class="g2">
@@ -206,9 +194,10 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     </div>
     <div class="tw"><table>
       <thead><tr>
-        <th>Tienda</th><th>Vendedor</th><th>Familia top</th>
-        <th class="r">YTD'25</th><th class="r">YTD'26</th><th class="r">Crec.</th>
-        <th>Días Stock</th><th class="r">Stock Ud.</th><th>Estado</th>
+        <th>Tienda</th><th>Vendedor</th>
+        <th class="r">SO YTD'25</th><th class="r">SO YTD'26</th><th class="r">Crec.SO</th>
+        <th class="r">SI YTD'25</th><th class="r">SI YTD'26</th><th class="r">Crec.SI</th>
+        <th>Días Stock</th><th class="r">Stock Ud.</th>
       </tr></thead>
       <tbody id="tbT"></tbody>
     </table></div>
@@ -218,8 +207,8 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 <!-- ══ SKU ══ -->
 <div id="sec-sku" class="sec">
   <div class="g2">
-    <div class="card"><div class="chdr"><span class="ctitle">🍩 Mix Familia</span><span class="cnote">SO YTD'26</span></div><div class="chl"><canvas id="cFamD"></canvas></div></div>
-    <div class="card"><div class="chdr"><span class="ctitle">📈 Crec. Producto</span><span class="cnote">Top 12 YTD</span></div><div class="chl"><canvas id="cSkuG"></canvas></div></div>
+    <div class="card"><div class="chdr"><span class="ctitle">🍩 Mix Familia</span><span class="cnote" id="sku-ctx">SO YTD'26 · Global</span></div><div class="chl"><canvas id="cFamD"></canvas></div></div>
+    <div class="card"><div class="chdr"><span class="ctitle">📈 Top Crecimientos</span><span class="cnote">% YTD'26 vs '25</span></div><div class="chl"><canvas id="cSkuG"></canvas></div></div>
   </div>
   <div class="card">
     <div class="chdr">
@@ -243,10 +232,10 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   <div class="card">
     <div class="chdr">
       <span class="ctitle">💰 Margen por Modelo</span>
-      <span class="cnote">PVP c/IVA ÷ 1,21 − Compra LM</span>
+      <span class="cnote">PVP÷1,21 − Precio compra LM (sin IVA)</span>
     </div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
-      <input class="srch" id="srM" placeholder="Buscar modelo…" oninput="renderM()">
+      <input class="srch" id="srM" placeholder="Buscar modelo/ref…" oninput="renderM()">
       <button class="tbtn on" id="bMp" onclick="mSort('pct')">% ↓</button>
       <button class="tbtn" id="bMe" onclick="mSort('eur')">€ ↓</button>
       <button class="tbtn" id="bMv" onclick="mSort('pvp')">PVP ↓</button>
@@ -255,12 +244,13 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
       <span><span class="dot dg"></span>≥25% Bueno</span>
       <span><span class="dot dy"></span>15–24% Normal</span>
       <span><span class="dot dr"></span>&lt;15% Bajo</span>
+      <span style="color:var(--muted);font-size:10px">· Margen independiente de tienda (precio único de catálogo)</span>
     </div>
     <div class="tw"><table>
       <thead><tr>
-        <th>Modelo</th><th>Ref. LM</th><th>Gama</th><th>Descripción</th>
+        <th>Modelo WORX</th><th>Ref. LM</th><th>Gama</th><th>Descripción</th>
         <th class="r">PVP c/IVA</th><th class="r">PVP s/IVA</th>
-        <th class="r">Compra</th><th class="r">Margen €</th><th class="r">Margen %</th><th>Barra</th>
+        <th class="r">Compra LM</th><th class="r">Margen €</th><th class="r">Margen %</th><th>Visual</th>
       </tr></thead>
       <tbody id="tbM"></tbody>
     </table></div>
@@ -272,13 +262,14 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   <div class="kpis" id="kpi-stock"></div>
   <div class="card">
     <div class="chdr">
-      <span class="ctitle">📋 Días de Stock por Producto y Tienda</span>
+      <span class="ctitle">📋 Días de Stock · Producto × Tienda</span>
       <input class="srch" id="srSt" placeholder="Buscar…" oninput="renderSt()">
     </div>
     <div class="leg">
       <span><span class="dot dg"></span>&lt;90d OK</span>
       <span><span class="dot dy"></span>90–150d Atención</span>
       <span><span class="dot dr"></span>&gt;150d Crítico</span>
+      <span style="color:var(--muted);font-size:10px">· SO 12m es el sell-out real de esa referencia en esa tienda (dato LM por tienda/producto)</span>
     </div>
     <div class="tw"><table>
       <thead><tr>
@@ -292,447 +283,543 @@ td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   </div>
 </div>
 
-</div><!-- /main -->
+</div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────
+// ═══════════════════════════════════════════════════
+// GLOBAL STATE
+// ═══════════════════════════════════════════════════
 let D = null;
 let CH = {};
+let tM = 'eur'; // tiendas mode
+let mSK = 'pct'; // margen sort
+let currentTab = 'resumen';
 
+// ── FORMAT HELPERS ──────────────────────────────────
+const fe = (v, d=0) => v==null ? '–' : new Intl.NumberFormat('es-ES',{minimumFractionDigits:d,maximumFractionDigits:d}).format(v) + '€';
+const fn = v => v==null ? '–' : new Intl.NumberFormat('es-ES').format(Math.round(v));
+const fp = v => v==null ? '–' : (v>0?'+':'') + v.toFixed(1) + '%';
+
+function pill(g, cls='') {
+  if(g==null) return '<span class="pill pg">N/D</span>';
+  if(g > 5)   return `<span class="pill pu">▲ ${fp(g)}</span>`;
+  if(g < -5)  return `<span class="pill pd">▼ ${fp(g)}</span>`;
+  return `<span class="pill pf">◆ ${fp(g)}</span>`;
+}
+function dbar(d) {
+  if(d==null || d<=0) return '–';
+  const w = Math.min(100, (d/365)*100);
+  const c = d>150 ? '#EF4444' : d>90 ? '#F59E0B' : '#22C55E';
+  return `<div class="db"><div class="db-t"><div class="db-f" style="width:${w}%;background:${c}"></div></div><span class="db-n">${Math.round(d)}d</span></div>`;
+}
+const dCol = d => d>150 ? '#EF4444' : d>90 ? '#F59E0B' : '#22C55E';
+const dLbl = d => d>150 ? '🔴 Crítico' : d>90 ? '🟡 Atención' : '🟢 OK';
+const destroyC = id => { if(CH[id]){CH[id].destroy(); delete CH[id];} };
+
+// ── CHART DEFAULTS ──────────────────────────────────
+const cOpts = {responsive:true, maintainAspectRatio:false, animation:{duration:400}};
+const tickY = v => (Math.abs(v)>=1000 ? (v/1000).toFixed(0)+'k' : v) + '€';
+const axY = {ticks:{callback:tickY,font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}};
+const axX = {ticks:{font:{size:10}},grid:{display:false}};
+const legOpts = {position:'top',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}};
+
+// ═══════════════════════════════════════════════════
+// LOAD DATA
+// ═══════════════════════════════════════════════════
 fetch('data.json')
   .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
   .then(d => {
     D = d;
     initFilters();
-    renderKPIs();
-    initCharts();
-    renderV();
-    renderT();
-    renderTKPIs();
+    renderAll();
   })
   .catch(e => {
     document.querySelector('.main').innerHTML =
-      '<div style="padding:30px;color:#dc2626;font-family:sans-serif"><h2>Error cargando datos</h2><pre style="margin-top:10px;font-size:12px">'+e+'</pre><p style="margin-top:10px">Comprueba que data.json está en la misma carpeta que index.html</p></div>';
+      `<div style="padding:40px;color:#dc2626;font-family:sans-serif">
+        <h2>⚠️ Error cargando datos</h2>
+        <pre style="margin:10px 0;font-size:12px;background:#fee;padding:10px;border-radius:6px">${e}</pre>
+        <p>Verifica que <code>data.json</code> está en la misma carpeta que <code>index.html</code></p>
+      </div>`;
   });
 
-// ── HELPERS ───────────────────────────────────────────
-const fE = (v,d=0) => v==null?'–':new Intl.NumberFormat('es-ES',{minimumFractionDigits:d,maximumFractionDigits:d}).format(v)+'€';
-const fN = v => v==null?'–':new Intl.NumberFormat('es-ES').format(Math.round(v));
-const fP = v => v==null?'–':(v>0?'+':'')+v.toFixed(1)+'%';
+// ═══════════════════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════════════════
+const gFC = () => document.getElementById('fC').value;
+const gFT = () => document.getElementById('fT').value;
+const gFF = () => document.getElementById('fF').value;
+const gFG = () => document.getElementById('fG').value;
 
-function pill(g,prefix=''){
-  if(g==null) return '<span class="pill pg">N/D</span>';
-  if(g>5)  return `<span class="pill pu">${prefix}▲ ${fP(g)}</span>`;
-  if(g<-5) return `<span class="pill pd">${prefix}▼ ${fP(g)}</span>`;
-  return `<span class="pill pf">${prefix}◆ ${fP(g)}</span>`;
-}
-function dbar(d){
-  if(d==null) return '–';
-  const w=Math.min(100,(d/365)*100);
-  const c=d>150?'#EF4444':d>90?'#F59E0B':'#22C55E';
-  return `<div class="db"><div class="db-t"><div class="db-f" style="width:${w}%;background:${c}"></div></div><span class="db-n">${Math.round(d)}d</span></div>`;
-}
-function estado(g,ds){
-  const e = g>5?'🟢':g<-15?'🔴':'🟡';
-  const w = ds>150?' ⚠️':'';
-  return e+w;
-}
-function destroyC(id){ if(CH[id]){CH[id].destroy();delete CH[id];} }
-
-// ── FILTER STATE ─────────────────────────────────────
-const gFC=()=>document.getElementById('fC').value;
-const gFT=()=>document.getElementById('fT').value;
-const gFF=()=>document.getElementById('fF').value;
-const gFG=()=>document.getElementById('fG').value;
-
-function initFilters(){
-  const fc=document.getElementById('fC');
-  D.comerciales.forEach(c=>fc.add(new Option(c.nombre,c.nombre)));
-  const fg=document.getElementById('fG');
-  D.gamas.forEach(g=>fg.add(new Option('Gama '+g,g)));
-  const ff=document.getElementById('fF');
-  D.familias.forEach(f=>ff.add(new Option(f.familia.replace('Consum.Y Accesor.Electroport','Accesorios').replace('z:Otros','Otros'),f.familia)));
-  buildTiendasOptions('');
+function initFilters() {
+  // Vendedores
+  const fc = document.getElementById('fC');
+  D.comerciales.forEach(c => fc.add(new Option(c.nombre, c.nombre)));
+  // Gamas
+  const fg = document.getElementById('fG');
+  D.gamas.forEach(g => fg.add(new Option('Gama '+g, g)));
+  // Familias
+  const ff = document.getElementById('fF');
+  D.familias.forEach(f => ff.add(new Option(shortFam(f.familia), f.familia)));
+  // Tiendas – all initially
+  rebuildTiendasOpts('');
 }
 
-function buildTiendasOptions(cial){
-  const ft=document.getElementById('fT');
-  const prev=ft.value;
-  ft.innerHTML='<option value="">Todas</option>';
+function shortFam(f) {
+  return f.replace('Consum.Y Accesor.Electroport','Accesorios')
+           .replace('Electroportatil','Electroportátil')
+           .replace('Motorizado Jardin','Jardín Mot.')
+           .replace('z:Otros','Otros');
+}
+
+function rebuildTiendasOpts(cial) {
+  const ft = document.getElementById('fT');
+  const prev = ft.value;
+  ft.innerHTML = '<option value="">Todas</option>';
   let list;
-  if(cial){
-    const c=D.comerciales.find(x=>x.nombre===cial);
-    list=c?c.tiendas.map(t=>t.charAt(0)+t.slice(1).toLowerCase()):[];
-    // also add from tiendas data
-    const fromSO=D.tiendas.filter(t=>t.comercial===cial).map(t=>t.tienda);
-    list=[...new Set([...list,...fromSO])].sort();
+  if (cial) {
+    // Get tiendas from SO data for this comercial
+    const c = D.comerciales.find(x => x.nombre === cial);
+    list = c ? [...c.tiendas] : [];
   } else {
-    list=[...new Set(D.tiendas.map(t=>t.tienda))].sort();
+    list = [...new Set(D.tiendas.map(t => t.tienda))].sort();
   }
-  list.forEach(t=>ft.add(new Option(t,t)));
-  if(list.includes(prev)) ft.value=prev;
+  list.sort().forEach(t => ft.add(new Option(t, t)));
+  if (list.includes(prev)) ft.value = prev;
 }
 
-function onFCial(){
-  buildTiendasOptions(gFC());
+function onFCial() {
+  rebuildTiendasOpts(gFC());
   applyF();
 }
 
-function applyF(){
-  renderV();
-  renderT(); renderTKPIs();
-  renderSku();
+function applyF() {
+  const fc=gFC(), ft=gFT(), ff=gFF(), fg=gFG();
+  // Update info badge
+  const parts = [];
+  if(fc) parts.push(fc);
+  if(ft) parts.push(ft);
+  if(ff) parts.push(shortFam(ff));
+  if(fg) parts.push('Gama '+fg);
+  const info = document.getElementById('finfo');
+  if(parts.length) { info.style.display='inline'; info.textContent='Filtro: '+parts.join(' · '); }
+  else info.style.display='none';
+
+  renderKPIsRes();
+  renderV(); renderKPIsVend();
+  renderT(); renderKPIsTiend();
+  renderSku(); renderSkuCharts();
   renderM();
-  renderSt(); renderStKPIs();
+  renderSt(); renderKPIsSt();
 }
 
-function resetF(){
+function resetF() {
   document.getElementById('fC').value='';
   document.getElementById('fT').value='';
   document.getElementById('fF').value='';
   document.getElementById('fG').value='';
-  buildTiendasOptions('');
+  document.getElementById('finfo').style.display='none';
+  rebuildTiendasOpts('');
   applyF();
 }
 
-// ── SECTION NAV ───────────────────────────────────────
-function show(id,btn){
-  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+// ═══════════════════════════════════════════════════
+// NAV
+// ═══════════════════════════════════════════════════
+function show(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
   document.getElementById('sec-'+id).classList.add('on');
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-  if(id==='tiendas'){renderT();renderTKPIs();}
-  if(id==='sku'){renderSku();initSkuCharts();}
-  if(id==='margen'){renderM();}
-  if(id==='stock'){renderSt();renderStKPIs();}
-  if(id==='vendedores'){renderV();renderVKPIs();}
+  currentTab = id;
+  if(id==='resumen') initChartsRes();
+  if(id==='sku') renderSkuCharts();
 }
 
-// ── KPIs MAIN ─────────────────────────────────────────
-function renderKPIs(){
-  if(!D)return;
-  const k=D.kpis;
-  const gr24_25=k.si_full_2024>0?parseFloat(((k.si_full_2025-k.si_full_2024)/k.si_full_2024*100).toFixed(1)):null;
-  document.getElementById('kpi-main').innerHTML=[
-    {l:"Sell In YTD'26",v:fE(k.si_ytd26),s:`vs ${fE(k.si_ytd25)} ('25)`,g:k.si_growth,c:'o'},
-    {l:"Sell Out YTD'26",v:fE(k.so_ytd26),s:`vs ${fE(k.so_ytd25)} ('25)`,g:k.so_growth,c:'l'},
-    {l:"SI Anual 2025",v:fE(k.si_full_2025),s:`vs ${fE(k.si_full_2024)} ('24)`,g:gr24_25,c:'o'},
-    {l:"Tiendas con SO",v:D.tiendas.filter(t=>t.so_ytd26>0).length,s:`de ${D.tiendas.length} totales`,g:null,c:'g'},
+function renderAll() {
+  renderKPIsRes();
+  renderAccRes();
+  initChartsRes();
+  renderV(); renderKPIsVend();
+  renderT(); renderKPIsTiend();
+  renderSku();
+  renderM();
+  renderSt(); renderKPIsSt();
+}
+
+// ═══════════════════════════════════════════════════
+// FILTER HELPERS – returns filtered datasets
+// ═══════════════════════════════════════════════════
+
+// Returns filtered SO products (global or per tienda)
+function filteredProds() {
+  const ft=gFT(), ff=gFF(), fg=gFG();
+  let prods;
+  if (ft) {
+    prods = D.so_por_tienda[ft] ? [...D.so_por_tienda[ft]] : [];
+  } else if (gFC()) {
+    // Union of tiendas for this comercial
+    const c = D.comerciales.find(x => x.nombre===gFC());
+    if (!c) { prods = [...D.productos]; }
+    else {
+      const map = {};
+      c.tiendas.forEach(t => {
+        const items = D.so_por_tienda[t] || [];
+        items.forEach(p => {
+          const key = p.sku;
+          if (!map[key]) map[key] = {...p, so25:0, so26:0, ud25:0, ud26:0};
+          map[key].so25 += p.so25; map[key].so26 += p.so26;
+          map[key].ud25 += p.ud25; map[key].ud26 += p.ud26;
+        });
+      });
+      prods = Object.values(map).map(p => ({
+        ...p,
+        growth: p.so25>0 ? +((p.so26-p.so25)/p.so25*100).toFixed(1) : null,
+        ud_growth: p.ud25>0 ? +((p.ud26-p.ud25)/p.ud25*100).toFixed(1) : null,
+      })).sort((a,b) => b.so26-a.so26);
+    }
+  } else {
+    prods = [...D.productos];
+  }
+  if (ff) prods = prods.filter(p => p.familia===ff);
+  if (fg) prods = prods.filter(p => p.gama===fg);
+  return prods;
+}
+
+// Returns filtered tiendas list
+function filteredTiendas() {
+  const fc=gFC(), ft=gFT(), ff=gFF();
+  const q = (document.getElementById('srT')||{}).value?.toLowerCase()||'';
+  let data = [...D.tiendas];
+  if (fc) data = data.filter(t => t.comercial===fc);
+  if (ft) data = data.filter(t => t.tienda===ft);
+  if (q)  data = data.filter(t => t.tienda.toLowerCase().includes(q)||(t.comercial||'').toLowerCase().includes(q));
+  // Filter by familia: keep tiendas that have SO for that familia
+  if (ff) {
+    const tSet = new Set(
+      Object.entries(D.so_por_tienda)
+        .filter(([, items]) => items.some(p => p.familia===ff))
+        .map(([t]) => t)
+    );
+    data = data.filter(t => tSet.has(t.tienda));
+  }
+  return data;
+}
+
+// Returns filtered stock list
+function filteredStock() {
+  const fc=gFC(), ft=gFT(), ff=gFF(), fg=gFG();
+  const q = (document.getElementById('srSt')||{}).value?.toLowerCase()||'';
+  let data = D.stock.filter(s => s.dias_stock>0);
+  if (fc) data = data.filter(s => s.comercial===fc);
+  if (ft) data = data.filter(s => s.tienda.toLowerCase()===ft.toLowerCase());
+  if (ff) data = data.filter(s => s.familia===ff);
+  if (fg) data = data.filter(s => s.gama===fg);
+  if (q)  data = data.filter(s =>
+    s.producto.toLowerCase().includes(q) || s.tienda.toLowerCase().includes(q) ||
+    s.modelo.toLowerCase().includes(q) || s.ref_lm.toLowerCase().includes(q));
+  return data;
+}
+
+// Returns filtered comerciales
+function filteredCiales() {
+  const fc=gFC();
+  let data = D.comerciales.filter(c => c.si_ytd26>0||c.si_ytd25>0||c.so_ytd26>0);
+  if (fc) data = data.filter(c => c.nombre===fc);
+  const q = (document.getElementById('srV')||{}).value?.toLowerCase()||'';
+  if (q) data = data.filter(c => c.nombre.toLowerCase().includes(q));
+  return data;
+}
+
+// ═══════════════════════════════════════════════════
+// RESUMEN
+// ═══════════════════════════════════════════════════
+function renderKPIsRes() {
+  if(!D) return;
+  const k = D.kpis;
+  const fc=gFC(), ft=gFT();
+  let si25=k.si_ytd25, si26=k.si_ytd26, sig=k.si_growth;
+  let so25=k.so_ytd25, so26=k.so_ytd26, sog=k.so_growth;
+  if (fc || ft) {
+    // recalc from tiendas
+    const tData = filteredTiendas();
+    si25=tData.reduce((a,t)=>a+t.si_ytd25,0); si26=tData.reduce((a,t)=>a+t.si_ytd26,0);
+    so25=tData.reduce((a,t)=>a+t.so_ytd25,0); so26=tData.reduce((a,t)=>a+t.so_ytd26,0);
+    sig=si25>0?+((si26-si25)/si25*100).toFixed(1):null;
+    sog=so25>0?+((so26-so25)/so25*100).toFixed(1):null;
+  }
+  document.getElementById('kpi-res').innerHTML = [
+    {l:"Sell In YTD'26", v:fe(si26), s:`vs ${fe(si25)} ('25)`, g:sig, c:'o'},
+    {l:"Sell Out YTD'26", v:fe(so26), s:`vs ${fe(so25)} ('25)`, g:sog, c:'l'},
+    {l:"SI Anual 2025", v:fe(k.si_full_2025), s:`vs ${fe(k.si_full_2024)} ('24)`, g:k.si_growth_2425, c:'o'},
+    {l:"Tiendas activas", v:filteredTiendas().filter(t=>t.so_ytd26>0).length, s:`de ${filteredTiendas().length} filtradas`, g:null, c:'g'},
   ].map(c=>`<div class="kpi ${c.c}"><div class="kpi-l">${c.l}</div><div class="kpi-v">${c.v}</div><div class="kpi-s">${c.s}</div>${c.g!=null?pill(c.g):''}</div>`).join('');
-  renderAccMain();
 }
 
-function renderAccMain(){
+function renderAccRes() {
+  if(!D) return;
   const k=D.kpis;
   const acc=[];
-  if(k.si_growth<-10) acc.push({i:'⚡',t:`<strong>Sell In cae ${Math.abs(k.si_growth).toFixed(0)}% YTD (LM Spain).</strong> Activa reposición en tiendas con rotura y negocia cabeceras de temporada.`});
-  if(k.so_growth<-10) acc.push({i:'🎯',t:`<strong>Sell Out baja ${Math.abs(k.so_growth).toFixed(0)}%.</strong> Producto disponible pero no se vende → problema de ejecución. Revisa facing y demos. Jardín crece +1.7% → prioriza esa familia.`});
+  if(k.si_growth<-10) acc.push({i:'⚡',t:`<strong>Sell In cae ${Math.abs(k.si_growth).toFixed(0)}% YTD.</strong> Activa reposición en tiendas con rotura y negocia cabeceras.`});
+  if(k.so_growth<-10) acc.push({i:'🎯',t:`<strong>Sell Out baja ${Math.abs(k.so_growth).toFixed(0)}%.</strong> Problema de ejecución en tienda → revisa facing y demos.`});
+  const crit = D.stock.filter(s=>s.dias_stock>150).length;
+  if(crit>0) acc.push({i:'🚨',t:`<strong>${crit} referencias con +150d de stock.</strong> Propón promo o reequilibrio urgente entre tiendas.`});
   const topT=[...D.tiendas].sort((a,b)=>b.so_ytd26-a.so_ytd26)[0];
-  if(topT) acc.push({i:'🏆',t:`<strong>Mejor tienda: ${topT.tienda}</strong> (${fE(topT.so_ytd26)}). Replica su ejecución en las 5 tiendas con menor SO.`});
-  const crit=D.stock.filter(s=>s.dias_stock>150).length;
-  if(crit>0) acc.push({i:'🚨',t:`<strong>${crit} referencias con +150 días de stock.</strong> Propón promoción puntual a LM o reequilibrio entre tiendas.`});
-  acc.push({i:'💡',t:`<strong>Jardín Motorizado: única familia en positivo (+1.7% SO).</strong> Amplía surtido robots y maximiza visibilidad en temporada pico Mar–Jun.`});
-  document.getElementById('acc-main').innerHTML=`<div class="at">⚡ Acciones Prioritarias</div>${acc.map(a=>`<div class="ai"><span class="ai-i">${a.i}</span><span class="ai-t">${a.t}</span></div>`).join('')}`;
+  if(topT) acc.push({i:'🏆',t:`<strong>Top tienda: ${topT.tienda}</strong> (${fe(topT.so_ytd26)} SO YTD'26). Replica su ejecución en las 5 tiendas de menor SO.`});
+  acc.push({i:'💡',t:`<strong>Acción: Jardín Motorizado único con crecimiento positivo.</strong> Amplía surtido robots y maximiza espacio Abr–Jun.`});
+  document.getElementById('acc-res').innerHTML = `<div class="at">⚡ Acciones Prioritarias</div>${acc.map(a=>`<div class="ai"><span class="ai-i">${a.i}</span><span class="ai-t">${a.t}</span></div>`).join('')}`;
 }
 
-// ── CHARTS ────────────────────────────────────────────
-const cOpts={responsive:true,maintainAspectRatio:false,animation:{duration:500}};
-const tickY=v=>(v/1000).toFixed(0)+'k€';
-const axY={ticks:{callback:tickY,font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}};
-const axX={ticks:{font:{size:10}},grid:{display:false}};
-const legOpts={position:'top',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}};
-
-function initCharts(){
-  if(!D)return;
+function initChartsRes() {
+  if(!D) return;
   const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   destroyC('cSI');
   CH['cSI']=new Chart(document.getElementById('cSI'),{type:'line',data:{labels:months,datasets:[
-    {label:'2024',data:D.monthly_si['2024'],borderColor:'#D1D5DB',borderWidth:1.5,pointRadius:2,tension:.3,spanGaps:true,backgroundColor:'rgba(209,213,219,0.06)'},
-    {label:'2025',data:D.monthly_si['2025'],borderColor:'#9CA3AF',borderWidth:2,pointRadius:2,tension:.3,spanGaps:true,backgroundColor:'rgba(156,163,175,0.06)'},
-    {label:'2026',data:D.monthly_si['2026'],borderColor:'#F47920',borderWidth:3,pointRadius:5,tension:.3,spanGaps:true,backgroundColor:'rgba(244,121,32,0.09)'}
+    {label:'2024',data:D.monthly_si['2024'],borderColor:'#D1D5DB',borderWidth:1.5,pointRadius:2,tension:.3,spanGaps:true,backgroundColor:'rgba(209,213,219,.06)'},
+    {label:'2025',data:D.monthly_si['2025'],borderColor:'#9CA3AF',borderWidth:2,pointRadius:2,tension:.3,spanGaps:true,backgroundColor:'rgba(156,163,175,.06)'},
+    {label:'2026',data:D.monthly_si['2026'],borderColor:'#F47920',borderWidth:3,pointRadius:5,tension:.3,spanGaps:true,backgroundColor:'rgba(244,121,32,.09)'}
   ]},options:{...cOpts,plugins:{legend:legOpts},scales:{y:axY,x:axX}}});
 
   destroyC('cFam');
   const fams=D.familias;
-  CH['cFam']=new Chart(document.getElementById('cFam'),{type:'bar',data:{labels:fams.map(f=>f.familia.replace('Consum.Y Accesor.Electroport','Accesorios').replace('Electroportatil','Electrop.').replace('Motorizado Jardin','Jardín').replace('z:Otros','Otros')),datasets:[
-    {label:"'25",data:fams.map(f=>f.so25),backgroundColor:'rgba(156,163,175,0.55)',borderRadius:3},
-    {label:"'26",data:fams.map(f=>f.so26),backgroundColor:'#F47920',borderRadius:3}
-  ]},options:{...cOpts,plugins:{legend:legOpts},scales:{y:axY,x:axX}}});
+  CH['cFam']=new Chart(document.getElementById('cFam'),{type:'bar',data:{
+    labels:fams.map(f=>shortFam(f.familia)),
+    datasets:[
+      {label:"'25",data:fams.map(f=>f.so25),backgroundColor:'rgba(156,163,175,.55)',borderRadius:3},
+      {label:"'26",data:fams.map(f=>f.so26),backgroundColor:'#F47920',borderRadius:3}
+    ]},options:{...cOpts,plugins:{legend:legOpts},scales:{y:axY,x:axX}}});
 
   destroyC('cCial');
   const ci=D.comerciales.filter(c=>c.si_ytd26>0||c.si_ytd25>0).sort((a,b)=>b.si_ytd26-a.si_ytd26);
-  CH['cCial']=new Chart(document.getElementById('cCial'),{type:'bar',data:{labels:ci.map(c=>{const p=c.nombre.split(' ');return p[0].slice(0,8)+(p[1]?' '+p[1][0]+'.':'');}),datasets:[
-    {label:"'25",data:ci.map(c=>c.si_ytd25),backgroundColor:'rgba(156,163,175,0.55)',borderRadius:3},
-    {label:"'26",data:ci.map(c=>c.si_ytd26),backgroundColor:'#F47920',borderRadius:3}
-  ]},options:{...cOpts,plugins:{legend:legOpts},scales:{y:axY,x:axX}}});
+  CH['cCial']=new Chart(document.getElementById('cCial'),{type:'bar',data:{
+    labels:ci.map(c=>{const p=c.nombre.split(' ');return p[0].slice(0,8)+(p[1]?' '+p[1][0]+'.':'');}),
+    datasets:[
+      {label:"SI'25",data:ci.map(c=>c.si_ytd25),backgroundColor:'rgba(156,163,175,.55)',borderRadius:3},
+      {label:"SI'26",data:ci.map(c=>c.si_ytd26),backgroundColor:'#F47920',borderRadius:3}
+    ]},options:{...cOpts,plugins:{legend:legOpts},scales:{y:axY,x:axX}}});
 
   destroyC('cTopT');
   const topT=[...D.tiendas].sort((a,b)=>b.so_ytd26-a.so_ytd26).slice(0,12);
-  CH['cTopT']=new Chart(document.getElementById('cTopT'),{type:'bar',data:{labels:topT.map(t=>t.tienda.length>16?t.tienda.slice(0,16)+'…':t.tienda),datasets:[
-    {label:"'25",data:topT.map(t=>t.so_ytd25),backgroundColor:'rgba(156,163,175,0.55)',borderRadius:3},
-    {label:"'26",data:topT.map(t=>t.so_ytd26),backgroundColor:'#78BE20',borderRadius:3}
-  ]},options:{...cOpts,indexAxis:'y',plugins:{legend:legOpts},scales:{x:{ticks:{callback:tickY,font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}},y:{ticks:{font:{size:10}},grid:{display:false}}}}});
+  CH['cTopT']=new Chart(document.getElementById('cTopT'),{type:'bar',data:{
+    labels:topT.map(t=>t.tienda.length>16?t.tienda.slice(0,16)+'…':t.tienda),
+    datasets:[
+      {label:"SO'25",data:topT.map(t=>t.so_ytd25),backgroundColor:'rgba(156,163,175,.55)',borderRadius:3},
+      {label:"SO'26",data:topT.map(t=>t.so_ytd26),backgroundColor:'#78BE20',borderRadius:3}
+    ]},options:{...cOpts,indexAxis:'y',plugins:{legend:legOpts},scales:{x:{ticks:{callback:tickY,font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},y:{ticks:{font:{size:10}},grid:{display:false}}}}});
 }
 
-function initSkuCharts(){
-  if(!D)return;
-  const fc=gFC(),ft=gFT(),ff=gFF(),fg=gFG();
-  let prods=[...D.productos];
-  if(ff) prods=prods.filter(p=>p.familia===ff);
-  if(fg) prods=prods.filter(p=>p.gama===fg);
-  const q=(document.getElementById('srSku')||{}).value?.toLowerCase()||'';
-  if(q) prods=prods.filter(p=>p.sku.toLowerCase().includes(q)||p.modelo.toLowerCase().includes(q));
-
-  const famMap={};
-  prods.forEach(p=>{famMap[p.familia]=(famMap[p.familia]||0)+p.so26;});
-  const famKeys=Object.keys(famMap);
-  destroyC('cFamD');
-  CH['cFamD']=new Chart(document.getElementById('cFamD'),{type:'doughnut',data:{
-    labels:famKeys.map(f=>f.replace('Consum.Y Accesor.Electroport','Accesorios').replace('Electroportatil','Electrop.').replace('Motorizado Jardin','Jardín').replace('z:Otros','Otros')),
-    datasets:[{data:famKeys.map(k=>famMap[k]),backgroundColor:['#F47920','#78BE20','#1C1C1C','#9CA3AF','#F59E0B'],borderWidth:2,borderColor:'#fff'}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+fE(ctx.raw)}}}}});
-
-  const skus=prods.filter(p=>p.so25>0).sort((a,b)=>(b.growth||0)-(a.growth||0)).slice(0,12);
-  destroyC('cSkuG');
-  CH['cSkuG']=new Chart(document.getElementById('cSkuG'),{type:'bar',data:{
-    labels:skus.map(p=>p.sku.length>28?p.sku.slice(0,28)+'…':p.sku),
-    datasets:[{label:'Crec.%',data:skus.map(p=>p.growth),backgroundColor:skus.map(p=>(p.growth||0)>=0?'#F47920':'#EF4444'),borderRadius:3}]
-  },options:{...cOpts,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}},y:{ticks:{font:{size:9}},grid:{display:false}}}}});
+// ═══════════════════════════════════════════════════
+// VENDEDORES
+// ═══════════════════════════════════════════════════
+function renderKPIsVend() {
+  if(!D) return;
+  const data = filteredCiales();
+  const si25=data.reduce((a,c)=>a+c.si_ytd25,0), si26=data.reduce((a,c)=>a+c.si_ytd26,0);
+  const so25=data.reduce((a,c)=>a+c.so_ytd25,0), so26=data.reduce((a,c)=>a+c.so_ytd26,0);
+  document.getElementById('kpi-vend').innerHTML=[
+    {l:"SI YTD'26",v:fe(si26),s:`vs ${fe(si25)}`,g:si25>0?+((si26-si25)/si25*100).toFixed(1):null,c:'o'},
+    {l:"SO YTD'26",v:fe(so26),s:`vs ${fe(so25)}`,g:so25>0?+((so26-so25)/so25*100).toFixed(1):null,c:'l'},
+  ].map(c=>`<div class="kpi ${c.c}"><div class="kpi-l">${c.l}</div><div class="kpi-v">${c.v}</div><div class="kpi-s">${c.s}</div>${c.g!=null?pill(c.g):''}</div>`).join('');
 }
 
-// ── VENDEDORES ────────────────────────────────────────
-function renderVKPIs(){
-  if(!D)return;
-  const fc=gFC();
-  const data=fc?D.comerciales.filter(c=>c.nombre===fc):D.comerciales;
-  const si25=data.reduce((a,c)=>a+c.si_ytd25,0),si26=data.reduce((a,c)=>a+c.si_ytd26,0);
-  const so25=data.reduce((a,c)=>a+c.so_ytd25,0),so26=data.reduce((a,c)=>a+c.so_ytd26,0);
-  const sig=si25>0?parseFloat(((si26-si25)/si25*100).toFixed(1)):null;
-  const sog=so25>0?parseFloat(((so26-so25)/so25*100).toFixed(1)):null;
-  document.getElementById('kpi-vend').innerHTML=`
-    <div class="kpi o"><div class="kpi-l">SI YTD'26${fc?' · '+fc:''}</div><div class="kpi-v">${fE(si26)}</div>${pill(sig)}</div>
-    <div class="kpi l"><div class="kpi-l">SO YTD'26${fc?' · '+fc:''}</div><div class="kpi-v">${fE(so26)}</div>${pill(sog)}</div>`;
-}
-
-function renderV(){
-  if(!D)return;
-  const q=(document.getElementById('srV')||{}).value?.toLowerCase()||'';
-  const fc=gFC();
-  let data=D.comerciales.filter(c=>c.si_ytd26>0||c.si_ytd25>0||c.so_ytd26>0);
-  if(fc) data=data.filter(c=>c.nombre===fc);
-  if(q)  data=data.filter(c=>c.nombre.toLowerCase().includes(q));
-  data.sort((a,b)=>b.si_ytd26-a.si_ytd26);
-  document.getElementById('tbV').innerHTML=data.map(c=>{
-    const est=(c.si_growth||0)>0?'🟢':(c.si_growth||0)>-15?'🟡':'🔴';
+function renderV() {
+  if(!D) return;
+  const data = filteredCiales().sort((a,b)=>b.si_ytd26-a.si_ytd26);
+  document.getElementById('tbV').innerHTML = data.length ? data.map(c=>{
+    const est = (c.si_growth||0)>5?'🟢':(c.si_growth||0)>-15?'🟡':'🔴';
     return `<tr>
       <td style="font-weight:600">${c.nombre}</td>
       <td class="r">${c.tiendas.length}</td>
-      <td class="r">${fE(c.si_ytd25)}</td><td class="r"><strong>${fE(c.si_ytd26)}</strong></td>
+      <td class="r">${fe(c.si_ytd25)}</td><td class="r"><strong>${fe(c.si_ytd26)}</strong></td>
       <td class="r">${pill(c.si_growth)}</td>
-      <td class="r">${fE(c.so_ytd25)}</td><td class="r"><strong>${fE(c.so_ytd26)}</strong></td>
+      <td class="r">${fe(c.so_ytd25)}</td><td class="r"><strong>${fe(c.so_ytd26)}</strong></td>
       <td class="r">${pill(c.so_growth)}</td>
-      <td>${est} ${(c.si_growth||0)>0?'Creciendo':(c.si_growth||0)>-15?'Estable':'Alerta'}</td>
+      <td>${est} ${(c.si_growth||0)>5?'Creciendo':(c.si_growth||0)>-15?'Estable':'Alerta'}</td>
     </tr>`;
-  }).join('');
-  if(fc) renderAccVend(fc);
+  }).join('') : '<tr><td colspan="9" class="emp">Sin datos para este filtro</td></tr>';
+  if(gFC()) renderAccVend(gFC());
   else document.getElementById('acc-vend').style.display='none';
-  renderVKPIs();
+  renderKPIsVend();
 }
 
-function renderAccVend(nombre){
-  const c=D.comerciales.find(x=>x.nombre===nombre);
-  if(!c)return;
-  const el=document.getElementById('acc-vend');
+function renderAccVend(nombre) {
+  const c = D.comerciales.find(x=>x.nombre===nombre);
+  if(!c) return;
+  const el = document.getElementById('acc-vend');
   el.style.display='block';
   const acc=[];
-  if((c.si_growth||0)<-20) acc.push({i:'⚡',t:`<strong>Sell In cae ${Math.abs(c.si_growth||0).toFixed(0)}%.</strong> Revisar pedidos pendientes y roturas. Programar visita urgente a zona.`});
-  if((c.so_growth||0)<-15) acc.push({i:'🎯',t:`<strong>Sell Out baja ${Math.abs(c.so_growth||0).toFixed(0)}%.</strong> Revisar facing, ubicación y demos en tiendas. Proponer acción promocional.`});
-  if((c.so_growth||0)>10)  acc.push({i:'🏆',t:`<strong>Sell Out +${(c.so_growth||0).toFixed(0)}%.</strong> Excelente ejecución. Proponer ampliación de espacio o nuevas referencias.`});
+  if((c.si_growth||0)<-20) acc.push({i:'⚡',t:`<strong>SI cae ${Math.abs(c.si_growth||0).toFixed(0)}%.</strong> Revisar pedidos y roturas. Visita urgente a zona.`});
+  if((c.so_growth||0)<-15) acc.push({i:'🎯',t:`<strong>SO baja ${Math.abs(c.so_growth||0).toFixed(0)}%.</strong> Revisar facing, ubicación y demos en tiendas.`});
+  if((c.so_growth||0)>10)  acc.push({i:'🏆',t:`<strong>SO +${(c.so_growth||0).toFixed(0)}%.</strong> Excelente. Ampliar espacio o nuevas referencias.`});
   const crit=D.stock.filter(s=>s.comercial===nombre&&s.dias_stock>150).length;
-  if(crit>0) acc.push({i:'🚨',t:`<strong>${crit} SKUs con stock crítico (+150d) en zona.</strong> Actuar con promo puntual o reequilibrio entre tiendas.`});
-  acc.push({i:'🏪',t:`Tiendas asignadas (${c.tiendas.length}): <strong>${c.tiendas.slice(0,10).join(', ')}${c.tiendas.length>10?'…':''}</strong>`});
+  if(crit>0) acc.push({i:'🚨',t:`<strong>${crit} SKUs con +150d de stock.</strong> Promo o reequilibrio entre tiendas de la zona.`});
+  acc.push({i:'🏪',t:`Tiendas (${c.tiendas.length}): <strong>${c.tiendas.slice(0,10).join(', ')}${c.tiendas.length>10?'…':''}</strong>`});
   el.innerHTML=`<div class="at">🎯 Acciones para ${nombre}</div>${acc.map(a=>`<div class="ai"><span class="ai-i">${a.i}</span><span class="ai-t">${a.t}</span></div>`).join('')}`;
 }
 
-// ── TIENDAS ───────────────────────────────────────────
-let tM='eur';
-function tMode(m){
+// ═══════════════════════════════════════════════════
+// TIENDAS
+// ═══════════════════════════════════════════════════
+function tMode(m) {
   tM=m;
   document.getElementById('bEur').className='tbtn'+(m==='eur'?' on':'');
   document.getElementById('bUd').className='tbtn'+(m==='ud'?' on':'');
   renderT();
 }
 
-function renderTKPIs(){
-  if(!D)return;
+function renderKPIsTiend() {
+  if(!D) return;
   const data=filteredTiendas();
-  const so25=data.reduce((a,t)=>a+t.so_ytd25,0);
-  const so26=data.reduce((a,t)=>a+t.so_ytd26,0);
-  const g=so25>0?parseFloat(((so26-so25)/so25*100).toFixed(1)):null;
+  const so25=data.reduce((a,t)=>a+t.so_ytd25,0), so26=data.reduce((a,t)=>a+t.so_ytd26,0);
+  const g=so25>0?+((so26-so25)/so25*100).toFixed(1):null;
   const dsOk=data.filter(t=>t.dias_stock!=null&&t.dias_stock<90).length;
   const dsCrit=data.filter(t=>t.dias_stock!=null&&t.dias_stock>150).length;
-  document.getElementById('kpi-tiend').innerHTML=`
-    <div class="kpi l"><div class="kpi-l">SO YTD'26 (filtrado)</div><div class="kpi-v">${fE(so26)}</div>${pill(g)}</div>
-    <div class="kpi g"><div class="kpi-l">Stock OK (&lt;90d)</div><div class="kpi-v">${dsOk}</div><div class="kpi-s">tiendas con stock sano</div></div>
-    <div class="kpi r"><div class="kpi-l">Stock Crítico (&gt;150d)</div><div class="kpi-v">${dsCrit}</div><div class="kpi-s">tiendas requieren acción</div></div>`;
+  document.getElementById('kpi-tiend').innerHTML=[
+    {l:"SO YTD'26 (filtro)",v:fe(so26),s:`vs ${fe(so25)} ('25)`,g,c:'l'},
+    {l:"Stock OK <90d",v:dsOk,s:"tiendas con stock sano",g:null,c:'g'},
+    {l:"Stock Crítico >150d",v:dsCrit,s:"requieren acción",g:null,c:'r'},
+  ].map(c=>`<div class="kpi ${c.c}"><div class="kpi-l">${c.l}</div><div class="kpi-v">${c.v}</div><div class="kpi-s">${c.s}</div>${c.g!=null?pill(c.g):''}</div>`).join('');
 }
 
-function filteredTiendas(){
-  const fc=gFC(),ft=gFT(),ff=gFF();
-  const q=(document.getElementById('srT')||{}).value?.toLowerCase()||'';
-  let data=[...D.tiendas];
-  if(fc) data=data.filter(t=>t.comercial===fc);
-  if(ft) data=data.filter(t=>t.tienda===ft);
-  if(q)  data=data.filter(t=>t.tienda.toLowerCase().includes(q)||(t.comercial||'').toLowerCase().includes(q));
-  // familia filter: get tiendas that have SO for that familia
-  if(ff){
-    const tiendasConFam=new Set(D.productos.filter(p=>p.familia===ff).flatMap(p=>[]));
-    // filter from stock data
-    const tFam=new Set(D.stock.filter(s=>s.familia===ff).map(s=>s.tienda.toLowerCase()));
-    data=data.filter(t=>tFam.has(t.tienda.toLowerCase()));
-  }
-  return data;
-}
-
-function renderT(){
-  if(!D)return;
-  let data=filteredTiendas();
-  data.sort((a,b)=>b.so_ytd26-a.so_ytd26);
-  const v25=t=>tM==='eur'?t.so_ytd25:t.so_ud25;
-  const v26=t=>tM==='eur'?t.so_ytd26:t.so_ud26;
-  const fV=v=>tM==='eur'?fE(v):fN(v)+' ud.';
-  // get top familia per tienda from stock
-  const famPerTienda={};
-  D.stock.forEach(s=>{
-    const k=s.tienda.toLowerCase();
-    if(!famPerTienda[k]) famPerTienda[k]={};
-    famPerTienda[k][s.familia]=(famPerTienda[k][s.familia]||0)+s.stock_ud;
-  });
-  function topFam(tienda){
-    const f=famPerTienda[tienda.toLowerCase()];
-    if(!f) return '–';
-    const top=Object.entries(f).sort((a,b)=>b[1]-a[1])[0];
-    return top?top[0].replace('Motorizado Jardin','🌿 Jardín').replace('Electroportatil','🔧 Electrop.'):'–';
-  }
-  document.getElementById('tbT').innerHTML=data.map(t=>`<tr>
+function renderT() {
+  if(!D) return;
+  const data=filteredTiendas().sort((a,b)=>b.so_ytd26-a.so_ytd26);
+  const vE=t=>tM==='eur';
+  const fV=(t,y)=>tM==='eur'?fe(y==='25'?t.so_ytd25:t.so_ytd26):fn(y==='25'?t.so_ud25:t.so_ud26)+' ud';
+  const fSI=(v)=>fe(v);
+  document.getElementById('tbT').innerHTML=data.length?data.map(t=>`<tr>
     <td style="font-weight:600">${t.tienda}</td>
-    <td>${t.comercial||'N/A'}</td>
-    <td><small>${topFam(t.tienda)}</small></td>
-    <td class="r">${fV(v25(t))}</td><td class="r"><strong>${fV(v26(t))}</strong></td>
+    <td>${t.comercial||'–'}</td>
+    <td class="r">${fV(t,'25')}</td><td class="r"><strong>${fV(t,'26')}</strong></td>
     <td class="r">${pill(t.growth)}</td>
+    <td class="r">${fSI(t.si_ytd25)}</td><td class="r"><strong>${fSI(t.si_ytd26)}</strong></td>
+    <td class="r">${pill(t.si_growth)}</td>
     <td>${dbar(t.dias_stock)}</td>
-    <td class="r">${fN(t.stock_ud)} ud.</td>
-    <td>${estado(t.growth||0,t.dias_stock||0)}</td>
-  </tr>`).join('');
-  renderTKPIs();
+    <td class="r">${fn(t.stock_ud)} ud</td>
+  </tr>`).join(''):'<tr><td colspan="10" class="emp">Sin datos para este filtro</td></tr>';
+  renderKPIsTiend();
 }
 
-// ── SKU ───────────────────────────────────────────────
-function renderSku(){
-  if(!D)return;
+// ═══════════════════════════════════════════════════
+// SKU
+// ═══════════════════════════════════════════════════
+function renderSkuCharts() {
+  if(!D) return;
+  const prods=filteredProds();
+  const ft=gFT(), fc=gFC();
+  const ctx=ft?ft:fc?fc:'Global';
+  document.getElementById('sku-ctx').textContent=`SO YTD'26 · ${ctx}`;
+
+  const famMap={};
+  prods.forEach(p=>{famMap[p.familia]=(famMap[p.familia]||0)+(p.so26||0);});
+  const famKeys=Object.keys(famMap).filter(k=>famMap[k]>0);
+  destroyC('cFamD');
+  CH['cFamD']=new Chart(document.getElementById('cFamD'),{type:'doughnut',data:{
+    labels:famKeys.map(shortFam),
+    datasets:[{data:famKeys.map(k=>famMap[k]),
+      backgroundColor:['#F47920','#78BE20','#1C1C1C','#9CA3AF','#F59E0B','#3B82F6','#8B5CF6'],
+      borderWidth:2,borderColor:'#fff'}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{
+    legend:{position:'bottom',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}},
+    tooltip:{callbacks:{label:ctx=>ctx.label+': '+fe(ctx.raw)}}}}});
+
+  const skus=prods.filter(p=>p.so25>0&&p.growth!=null).sort((a,b)=>(b.growth||0)-(a.growth||0)).slice(0,12);
+  destroyC('cSkuG');
+  CH['cSkuG']=new Chart(document.getElementById('cSkuG'),{type:'bar',data:{
+    labels:skus.map(p=>p.sku.length>30?p.sku.slice(0,30)+'…':p.sku),
+    datasets:[{label:'Crec.%',data:skus.map(p=>p.growth),
+      backgroundColor:skus.map(p=>(p.growth||0)>=0?'#F47920':'#EF4444'),borderRadius:3}]
+  },options:{...cOpts,indexAxis:'y',plugins:{legend:{display:false}},
+    scales:{x:{ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'rgba(0,0,0,.04)'}},y:{ticks:{font:{size:9}},grid:{display:false}}}}});
+}
+
+function renderSku() {
+  if(!D) return;
   const q=(document.getElementById('srSku')||{}).value?.toLowerCase()||'';
-  const fc=gFC(),ft=gFT(),ff=gFF(),fg=gFG();
-  let data=[...D.productos];
-  if(ff) data=data.filter(p=>p.familia===ff);
-  if(fg) data=data.filter(p=>p.gama===fg);
-  if(q)  data=data.filter(p=>p.sku.toLowerCase().includes(q)||p.modelo.toLowerCase().includes(q)||p.ref_lm.toLowerCase().includes(q));
-  document.getElementById('tbSku').innerHTML=data.map(p=>{
-    const ug=p.ud25>0?parseFloat(((p.ud26-p.ud25)/p.ud25*100).toFixed(1)):null;
-    return `<tr>
-      <td class="nm" style="max-width:220px">${p.sku}</td>
-      <td><span class="pill pf">${p.modelo}</span></td>
-      <td><span class="pill pg">${p.ref_lm}</span></td>
-      <td><span class="pill pg">${p.gama||'–'}</span></td>
-      <td><small>${p.familia.replace('Motorizado Jardin','🌿 Jardín').replace('Electroportatil','🔧 Electrop.').replace('Consum.Y Accesor.Electroport','Accesorios').replace('z:Otros','Otros')}</small></td>
-      <td class="r">${fE(p.so25)}</td><td class="r"><strong>${fE(p.so26)}</strong></td>
-      <td class="r">${fN(p.ud25)}</td><td class="r"><strong>${fN(p.ud26)}</strong></td>
-      <td class="r">${pill(p.growth)}</td><td class="r">${pill(ug)}</td>
-    </tr>`;
-  }).join('');
-  initSkuCharts();
+  let prods=filteredProds();
+  if(q) prods=prods.filter(p=>p.sku.toLowerCase().includes(q)||p.modelo.toLowerCase().includes(q)||p.ref_lm.toLowerCase().includes(q));
+  document.getElementById('tbSku').innerHTML=prods.length?prods.map(p=>`<tr>
+    <td class="nm" style="max-width:220px;font-size:11px">${p.sku}</td>
+    <td><span class="pill po">${p.modelo}</span></td>
+    <td><span class="pill pg">${p.ref_lm}</span></td>
+    <td><span class="pill pg">${p.gama||'–'}</span></td>
+    <td style="font-size:11px">${shortFam(p.familia)}</td>
+    <td class="r">${fe(p.so25)}</td><td class="r"><strong>${fe(p.so26)}</strong></td>
+    <td class="r">${fn(p.ud25)}</td><td class="r"><strong>${fn(p.ud26)}</strong></td>
+    <td class="r">${pill(p.growth)}</td><td class="r">${pill(p.ud_growth)}</td>
+  </tr>`).join(''):'<tr><td colspan="11" class="emp">Sin datos para este filtro</td></tr>';
 }
 
-// ── MARGEN ────────────────────────────────────────────
-let mSK='pct';
-function mSort(k){
+// ═══════════════════════════════════════════════════
+// MARGEN – precio es de catálogo (único, no cambia por tienda)
+// ═══════════════════════════════════════════════════
+function mSort(k) {
   mSK=k;
   ['p','e','v'].forEach(x=>document.getElementById('bM'+x).className='tbtn');
   document.getElementById('bM'+k[0]).className='tbtn on';
   renderM();
 }
-function renderM(){
-  if(!D)return;
+
+function renderM() {
+  if(!D) return;
   const q=(document.getElementById('srM')||{}).value?.toLowerCase()||'';
-  const fg=gFG(), ff=gFF();
-  let data=D.margin.filter(m=>m.compra!=null&&m.margen_pct!=null);
+  const fg=gFG();
+  let data=D.margin.slice();
   if(fg) data=data.filter(m=>m.gama===fg);
   if(q)  data=data.filter(m=>(m.modelo+m.desc+m.ref_lm).toLowerCase().includes(q));
   if(mSK==='pct') data.sort((a,b)=>b.margen_pct-a.margen_pct);
   else if(mSK==='eur') data.sort((a,b)=>b.margen_eur-a.margen_eur);
   else data.sort((a,b)=>b.pvp-a.pvp);
-  document.getElementById('tbM').innerHTML=data.map(m=>{
+  document.getElementById('tbM').innerHTML=data.length?data.map(m=>{
     const w=Math.max(0,Math.min(100,m.margen_pct));
-    const c=m.margen_pct>=25?'#22C55E':m.margen_pct>=15?'#F59E0B':'#EF4444';
     const bc=m.margen_pct>=25?'pu':m.margen_pct>=15?'pf':'pd';
     return `<tr>
-      <td><span class="pill pf">${m.modelo}</span></td>
+      <td><span class="pill po">${m.modelo}</span></td>
       <td><span class="pill pg">${m.ref_lm}</span></td>
       <td><span class="pill pg">${m.gama||'–'}</span></td>
-      <td class="nm" style="max-width:200px">${m.desc}</td>
+      <td class="nm" style="max-width:200px;font-size:11px">${m.desc}</td>
       <td class="r">${m.pvp.toFixed(2)}€</td>
       <td class="r">${m.pvp_siniva.toFixed(2)}€</td>
       <td class="r">${m.compra.toFixed(2)}€</td>
       <td class="r"><strong>${m.margen_eur!=null?m.margen_eur.toFixed(2)+'€':'–'}</strong></td>
       <td class="r"><span class="pill ${bc}">${m.margen_pct!=null?m.margen_pct.toFixed(1)+'%':'–'}</span></td>
-      <td><div style="height:6px;width:70px;background:var(--bg);border-radius:3px;overflow:hidden;display:inline-block"><div style="height:100%;width:${w}%;background:${c};border-radius:3px"></div></div></td>
+      <td><div style="height:6px;width:70px;background:var(--bg);border-radius:3px;overflow:hidden;display:inline-block"><div style="height:100%;width:${w}%;background:${m.margen_pct>=25?'#22C55E':m.margen_pct>=15?'#F59E0B':'#EF4444'};border-radius:3px"></div></div></td>
     </tr>`;
-  }).join('');
+  }).join(''):'<tr><td colspan="10" class="emp">Sin datos para este filtro</td></tr>';
 }
 
-// ── STOCK ─────────────────────────────────────────────
-function renderStKPIs(){
-  if(!D)return;
+// ═══════════════════════════════════════════════════
+// STOCK
+// ═══════════════════════════════════════════════════
+function renderKPIsSt() {
+  if(!D) return;
   const data=filteredStock();
   const crit=data.filter(s=>s.dias_stock>150).length;
   const warn=data.filter(s=>s.dias_stock>90&&s.dias_stock<=150).length;
   const ok=data.filter(s=>s.dias_stock<=90).length;
-  document.getElementById('kpi-stock').innerHTML=`
-    <div class="kpi g"><div class="kpi-l">OK &lt;90d</div><div class="kpi-v">${ok}</div><div class="kpi-s">referencias en zona OK</div></div>
-    <div class="kpi o"><div class="kpi-l">Atención 90–150d</div><div class="kpi-v">${warn}</div><div class="kpi-s">requieren seguimiento</div></div>
-    <div class="kpi r"><div class="kpi-l">Crítico &gt;150d</div><div class="kpi-v">${crit}</div><div class="kpi-s">acción urgente</div></div>`;
+  document.getElementById('kpi-stock').innerHTML=[
+    {l:"OK <90d",v:ok,s:"referencias en zona sana",c:'g'},
+    {l:"Atención 90–150d",v:warn,s:"requieren seguimiento",c:'o'},
+    {l:"Crítico >150d",v:crit,s:"acción urgente",c:'r'},
+  ].map(c=>`<div class="kpi ${c.c}"><div class="kpi-l">${c.l}</div><div class="kpi-v">${c.v}</div><div class="kpi-s">${c.s}</div></div>`).join('');
 }
 
-function filteredStock(){
-  const q=(document.getElementById('srSt')||{}).value?.toLowerCase()||'';
-  const fg=gFG(), ff=gFF(), fc=gFC(), ft=gFT();
-  let data=D.stock.filter(s=>s.dias_stock!=null&&s.dias_stock>0);
-  if(fc) data=data.filter(s=>s.comercial===fc);
-  if(ft) data=data.filter(s=>s.tienda.toLowerCase()===ft.toLowerCase());
-  if(ff) data=data.filter(s=>s.familia===ff);
-  if(fg) data=data.filter(s=>s.gama===fg);
-  if(q)  data=data.filter(s=>s.producto.toLowerCase().includes(q)||s.tienda.toLowerCase().includes(q)||s.modelo.toLowerCase().includes(q)||s.ref_lm.toLowerCase().includes(q));
-  return data;
-}
-
-function renderSt(){
-  if(!D)return;
-  const data=filteredStock().sort((a,b)=>(b.dias_stock||0)-(a.dias_stock||0));
-  const dc=d=>d>150?'dot dr':d>90?'dot dy':'dot dg';
-  const de=d=>d>150?'Crítico':d>90?'Atención':'OK';
-  document.getElementById('tbSt').innerHTML=data.slice(0,400).map(s=>`<tr>
-    <td class="nm" style="max-width:180px">${s.producto}</td>
-    <td><span class="pill pf">${s.modelo}</span></td>
+function renderSt() {
+  if(!D) return;
+  const data=filteredStock().sort((a,b)=>(b.dias_stock||0)-(a.dias_stock||0)).slice(0,500);
+  document.getElementById('tbSt').innerHTML=data.length?data.map(s=>`<tr>
+    <td class="nm" style="max-width:170px;font-size:11px">${s.producto}</td>
+    <td><span class="pill po">${s.modelo}</span></td>
     <td><span class="pill pg">${s.ref_lm}</span></td>
     <td><span class="pill pg">${s.gama||'–'}</span></td>
-    <td>${s.tienda}</td>
+    <td style="font-weight:500">${s.tienda}</td>
     <td>${s.comercial}</td>
-    <td><small>${(s.familia||'').replace('Motorizado Jardin','🌿 Jardín').replace('Electroportatil','🔧 Electrop.')}</small></td>
-    <td class="r">${fN(s.stock_ud)} ud.</td>
+    <td style="font-size:11px">${shortFam(s.familia)}</td>
+    <td class="r">${fn(s.stock_ud)} ud</td>
     <td>${dbar(s.dias_stock)}</td>
-    <td class="r">${fE(s.sellout_12m)}</td>
-    <td><span class="${dc(s.dias_stock)}"></span>${de(s.dias_stock)}</td>
-  </tr>`).join('');
-  renderStKPIs();
+    <td class="r">${fe(s.sellout_12m_keur)}</td>
+    <td style="font-size:11px">${dLbl(s.dias_stock)}</td>
+  </tr>`).join(''):'<tr><td colspan="11" class="emp">Sin datos para este filtro</td></tr>';
+  renderKPIsSt();
 }
 </script>
 </body>
