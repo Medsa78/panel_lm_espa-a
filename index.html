@@ -7,769 +7,523 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap');
-
 :root {
-  --orange: #F47920;
-  --orange-light: #FF9A50;
-  --black: #1C1C1C;
-  --dark: #2D2D2D;
-  --bg: #F4F3EF;
-  --card: #FFFFFF;
-  --border: #E4E0D8;
-  --muted: #7A7A7A;
-  --green: #22C55E;
-  --red: #EF4444;
-  --yellow: #F59E0B;
-  --lm: #78BE20;
-  --sh: 0 2px 10px rgba(0,0,0,0.07);
-  --sh2: 0 6px 28px rgba(0,0,0,0.11);
+  --orange:#F47920; --orange2:#FF9A50; --black:#1C1C1C; --bg:#F4F3EF;
+  --card:#FFF; --border:#E4E0D8; --muted:#7A7A7A;
+  --green:#22C55E; --red:#EF4444; --yellow:#F59E0B; --lm:#78BE20;
+  --sh:0 2px 10px rgba(0,0,0,0.07); --sh2:0 6px 28px rgba(0,0,0,0.11);
 }
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--black);font-size:14px}
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+/* HEADER */
+.hdr{background:var(--black);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.4)}
+.hdr-logos{display:flex;align-items:center;gap:12px}
+.hdr-logos img{height:32px;object-fit:contain}
+.hdr-logos img.lm{height:36px;filter:brightness(0) invert(1) opacity(.9)}
+.hdr-sep{width:1px;height:24px;background:rgba(255,255,255,0.18)}
+.hdr-mid{position:absolute;left:50%;transform:translateX(-50%);text-align:center}
+.hdr-title{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:#fff;letter-spacing:1.5px;text-transform:uppercase;line-height:1.1}
+.hdr-sub{font-size:9px;color:rgba(255,255,255,0.4);letter-spacing:.5px}
+.hdr-badge{background:var(--orange);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;padding:4px 10px;border-radius:4px;letter-spacing:.8px;white-space:nowrap}
 
-body {
-  font-family: 'Barlow', sans-serif;
-  background: var(--bg);
-  color: var(--black);
-  font-size: 14px;
-  overscroll-behavior: none;
-}
+/* NAV */
+.nav{background:#fff;border-bottom:2.5px solid var(--orange);display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:56px;z-index:190;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.nav::-webkit-scrollbar{display:none}
+.nb{flex-shrink:0;padding:11px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2.5px;transition:all .2s;white-space:nowrap}
+.nb.on{color:var(--orange);border-bottom-color:var(--orange)}
 
-/* ── HEADER ── */
-.hdr {
-  background: var(--black);
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-}
-.hdr-logos { display:flex; align-items:center; gap:14px; }
-.hdr-logos img { height:34px; object-fit:contain; }
-.hdr-logos img.lm-logo { height:38px; filter: brightness(0) invert(1) opacity(0.9); }
-.hdr-sep { width:1px; height:26px; background:rgba(255,255,255,0.18); }
-.hdr-center {
-  text-align: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.hdr-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  color: white;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  line-height: 1.1;
-}
-.hdr-sub { font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 0.5px; }
-.hdr-badge {
-  background: var(--orange);
-  color: white;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 4px;
-  letter-spacing: 0.8px;
-  white-space: nowrap;
-}
+/* FILTER BAR */
+.fbar{background:#fff;padding:8px 14px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.flbl{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.8px;white-space:nowrap}
+select.fs{border:1.5px solid var(--border);border-radius:6px;padding:5px 8px;font-family:'Barlow',sans-serif;font-size:12px;background:#fff;color:var(--black);outline:none;min-width:130px;max-width:170px}
+select.fs:focus{border-color:var(--orange)}
+.freset{padding:5px 10px;border:1.5px solid var(--border);border-radius:5px;background:#fff;font-size:11px;font-weight:600;cursor:pointer;color:var(--muted)}
+.freset:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
 
-/* ── NAV TABS ── */
-.nav {
-  background: white;
-  border-bottom: 2.5px solid var(--orange);
-  display: flex;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  position: sticky;
-  top: 58px;
-  z-index: 190;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-.nav::-webkit-scrollbar { display:none; }
-.nav-btn {
-  flex-shrink: 0;
-  padding: 12px 16px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--muted);
-  background: none;
-  border: none;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2.5px;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.nav-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+/* MAIN */
+.main{padding:14px;max-width:1400px;margin:0 auto}
+.sec{display:none}.sec.on{display:block}
 
-/* ── FILTER BAR ── */
-.filters {
-  background: white;
-  padding: 10px 16px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-  border-bottom: 1px solid var(--border);
-}
-.filters label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--muted); letter-spacing: 0.8px; }
-select.fsel {
-  border: 1.5px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-family: 'Barlow', sans-serif;
-  font-size: 12px;
-  background: white;
-  color: var(--black);
-  outline: none;
-  min-width: 140px;
-  max-width: 180px;
-}
-select.fsel:focus { border-color: var(--orange); }
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px;margin-bottom:14px}
+.kpi{background:var(--card);border-radius:10px;padding:14px;box-shadow:var(--sh);border-left:4px solid var(--border)}
+.kpi.o{border-left-color:var(--orange)}.kpi.g{border-left-color:var(--green)}.kpi.l{border-left-color:var(--lm)}.kpi.r{border-left-color:var(--red)}
+.kpi-l{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:5px}
+.kpi-v{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;line-height:1}
+.kpi-s{font-size:10px;color:var(--muted);margin-top:2px}
+.pill{display:inline-flex;align-items:center;gap:3px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:2px 6px;border-radius:4px;margin-top:4px}
+.pu{background:#dcfce7;color:#16a34a}.pd{background:#fee2e2;color:#dc2626}.pf{background:#fef3c7;color:#d97706}.pg{background:#f3f4f6;color:#6b7280}
 
-/* ── MAIN ── */
-.main { padding: 16px; max-width: 1400px; margin: 0 auto; }
-.section { display: none; }
-.section.active { display: block; }
+/* CARDS */
+.card{background:var(--card);border-radius:10px;padding:14px;box-shadow:var(--sh);margin-bottom:12px}
+.chdr{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.ctitle{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.8px}
+.cnote{font-size:10px;color:var(--muted)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:680px){.g2{grid-template-columns:1fr}}
 
-/* ── KPI STRIP ── */
-.kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.kpi {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: var(--sh);
-  border-left: 4px solid var(--border);
-}
-.kpi.orange { border-left-color: var(--orange); }
-.kpi.green  { border-left-color: var(--green); }
-.kpi.lm     { border-left-color: var(--lm); }
-.kpi.red    { border-left-color: var(--red); }
-.kpi-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 6px; }
-.kpi-val { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 900; line-height: 1; }
-.kpi-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 4px;
-  margin-top: 5px;
-}
-.up   { background:#dcfce7; color:#16a34a; }
-.down { background:#fee2e2; color:#dc2626; }
-.flat { background:#fef3c7; color:#d97706; }
-.gray { background:#f3f4f6; color:#6b7280; }
+/* CHARTS */
+.ch{position:relative;height:210px}.chl{position:relative;height:270px}.chs{position:relative;height:150px}
 
-/* ── CARDS ── */
-.card {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: var(--sh);
-  margin-bottom: 14px;
-}
-.card-hdr {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-}
-.card-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-}
-.card-note { font-size: 11px; color: var(--muted); }
+/* TABLES */
+.tw{overflow-x:auto;overflow-y:auto;max-height:440px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:480px}
+thead th{background:var(--black);color:#fff;padding:8px 9px;text-align:left;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;position:sticky;top:0;z-index:5}
+thead th.r{text-align:right}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
+tbody tr:hover{background:#FFF8F3}
+td{padding:7px 9px;white-space:nowrap}
+td.r{text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:13px}
+td.nm{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* ── GRID ── */
-.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-@media (max-width: 700px) { .g2 { grid-template-columns: 1fr; } }
+/* INPUTS */
+.srch{border:1.5px solid var(--border);border-radius:6px;padding:5px 9px;font-family:'Barlow',sans-serif;font-size:12px;outline:none;width:165px;background:var(--bg)}
+.srch:focus{border-color:var(--orange);background:#fff}
+.tbtn{padding:4px 10px;border:1.5px solid var(--border);border-radius:5px;background:#fff;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;cursor:pointer;color:var(--muted);transition:all .15s}
+.tbtn.on{background:var(--orange);border-color:var(--orange);color:#fff}
 
-/* ── CHARTS ── */
-.ch { position: relative; height: 220px; }
-.ch-lg { position: relative; height: 280px; }
-.ch-sm { position: relative; height: 160px; }
+/* ACCIONES */
+.acc{background:linear-gradient(135deg,#1C1C1C,#2a2a2a);border-radius:10px;padding:14px;margin-bottom:12px}
+.at{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:8px}
+.ai{display:flex;gap:9px;align-items:flex-start;padding:8px 9px;background:rgba(255,255,255,0.05);border-radius:7px;border-left:3px solid var(--orange);margin-bottom:7px}
+.ai-i{font-size:14px;flex-shrink:0;margin-top:1px}
+.ai-t{font-size:12px;color:rgba(255,255,255,0.88);line-height:1.4}
+.ai-t strong{color:var(--orange2)}
 
-/* ── TABLES ── */
-.tbl-wrap { overflow-x: auto; overflow-y: auto; max-height: 450px; -webkit-overflow-scrolling: touch; }
-table { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 500px; }
-thead th {
-  background: var(--black);
-  color: white;
-  padding: 9px 10px;
-  text-align: left;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-}
-thead th.r { text-align: right; }
-tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
-tbody tr:hover { background: #FFF8F3; }
-td { padding: 8px 10px; white-space: nowrap; }
-td.r { text-align: right; font-family: 'Barlow Condensed', sans-serif; font-size: 13px; }
-td.name { max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* DIAS BAR */
+.db{display:flex;align-items:center;gap:5px}
+.db-t{flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;min-width:40px}
+.db-f{height:100%;border-radius:3px}
+.db-n{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;min-width:30px;text-align:right}
 
-/* ── SEARCH ── */
-.srch {
-  border: 1.5px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-family: 'Barlow', sans-serif;
-  font-size: 12px;
-  outline: none;
-  width: 180px;
-  background: var(--bg);
-}
-.srch:focus { border-color: var(--orange); background: white; }
+/* LEGEND */
+.leg{display:flex;gap:12px;font-size:11px;margin-bottom:8px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.dg{background:var(--green)}.dy{background:var(--yellow)}.dr{background:var(--red)}
 
-/* ── TOGGLE BTNS ── */
-.tbtn {
-  padding: 5px 11px;
-  border: 1.5px solid var(--border);
-  border-radius: 5px;
-  background: white;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  cursor: pointer;
-  color: var(--muted);
-  transition: all 0.15s;
-}
-.tbtn.on { background: var(--orange); border-color: var(--orange); color: white; }
-
-/* ── ACCIONES BOX ── */
-.acciones {
-  background: linear-gradient(135deg, #1C1C1C 0%, #2a2a2a 100%);
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 14px;
-}
-.acc-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 12px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--orange);
-  margin-bottom: 10px;
-}
-.acc-item {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  padding: 9px 10px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 7px;
-  border-left: 3px solid var(--orange);
-  margin-bottom: 8px;
-}
-.acc-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
-.acc-txt { font-size: 12.5px; color: rgba(255,255,255,0.88); line-height: 1.45; }
-.acc-txt strong { color: var(--orange-light); }
-
-/* ── DIAS BAR ── */
-.dbar { display:flex; align-items:center; gap:6px; }
-.dbar-track { flex:1; height:7px; background:var(--bg); border-radius:3px; overflow:hidden; min-width:50px; }
-.dbar-fill { height:100%; border-radius:3px; transition:width 0.4s; }
-
-/* ── MARGIN BAR ── */
-.mbar-track { height:7px; background:var(--bg); border-radius:3px; overflow:hidden; width:70px; display:inline-block; }
-.mbar-fill { height:100%; border-radius:3px; }
-
-/* ── SEMAFORO ── */
-.dot { width:9px; height:9px; border-radius:50%; display:inline-block; margin-right:5px; }
-.dot-g { background:var(--green); }
-.dot-y { background:var(--yellow); }
-.dot-r { background:var(--red); }
-
-/* MOBILE ADJUSTMENTS */
-@media (max-width: 600px) {
-  .hdr-center { display:none; }
-  .kpis { grid-template-columns: 1fr 1fr; }
-  .hdr { padding: 0 12px; }
-  .main { padding: 12px; }
-  table { font-size: 12px; }
+@media(max-width:580px){
+  .hdr-mid{display:none}
+  .kpis{grid-template-columns:1fr 1fr}
+  .hdr{padding:0 10px}
+  .main{padding:10px}
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="hdr">
   <div class="hdr-logos">
     <img src="worx.jpg" alt="WORX">
     <div class="hdr-sep"></div>
-    <img src="lm.jpg" alt="Leroy Merlin" class="lm-logo">
+    <img src="lm.jpg" alt="Leroy Merlin" class="lm">
   </div>
-  <div class="hdr-center">
+  <div class="hdr-mid">
     <div class="hdr-title">Dashboard Comercial</div>
-    <div class="hdr-sub">WORX · Leroy Merlin España</div>
+    <div class="hdr-sub">WORX · Leroy Merlin España · LM SPAIN</div>
   </div>
   <div class="hdr-badge">YTD'26</div>
 </header>
 
-<!-- NAV -->
 <nav class="nav">
-  <button class="nav-btn active" onclick="show('resumen',this)">📊 Resumen</button>
-  <button class="nav-btn" onclick="show('vendedores',this)">👤 Vendedores</button>
-  <button class="nav-btn" onclick="show('tiendas',this)">🏪 Tiendas</button>
-  <button class="nav-btn" onclick="show('sku',this)">📦 SKU</button>
-  <button class="nav-btn" onclick="show('margen',this)">💰 Margen</button>
-  <button class="nav-btn" onclick="show('stock',this)">📋 Stock</button>
+  <button class="nb on" onclick="show('resumen',this)">📊 Resumen</button>
+  <button class="nb" onclick="show('vendedores',this)">👤 Vendedores</button>
+  <button class="nb" onclick="show('tiendas',this)">🏪 Tiendas</button>
+  <button class="nb" onclick="show('sku',this)">📦 SKU</button>
+  <button class="nb" onclick="show('margen',this)">💰 Margen</button>
+  <button class="nb" onclick="show('stock',this)">📋 Stock</button>
 </nav>
 
-<!-- FILTERS -->
-<div class="filters">
-  <label>Vendedor</label>
-  <select class="fsel" id="fCial" onchange="applyF()">
+<!-- FILTROS GLOBALES -->
+<div class="fbar">
+  <span class="flbl">Vendedor</span>
+  <select class="fs" id="fC" onchange="onFCial()">
     <option value="">Todos</option>
   </select>
-  <label>Tienda</label>
-  <select class="fsel" id="fTienda" onchange="applyF()">
+  <span class="flbl">Tienda</span>
+  <select class="fs" id="fT" onchange="applyF()">
     <option value="">Todas</option>
   </select>
-  <label>Familia</label>
-  <select class="fsel" id="fFam" onchange="applyF()">
+  <span class="flbl">Familia</span>
+  <select class="fs" id="fF" onchange="applyF()">
     <option value="">Todas</option>
   </select>
+  <span class="flbl">Gama</span>
+  <select class="fs" id="fG" onchange="applyF()">
+    <option value="">Todas</option>
+  </select>
+  <button class="freset" onclick="resetF()">✕ Limpiar</button>
 </div>
 
 <div class="main">
 
-<!-- ═══════════ RESUMEN ═══════════ -->
-<div id="sec-resumen" class="section active">
-  <div class="kpis" id="kpi-strip"></div>
-  <div class="acciones" id="acc-global"></div>
+<!-- ══ RESUMEN ══ -->
+<div id="sec-resumen" class="sec on">
+  <div class="kpis" id="kpi-main"></div>
+  <div class="acc" id="acc-main"></div>
   <div class="g2">
-    <div class="card">
-      <div class="card-hdr"><span class="card-title">📈 Sell In Mensual</span><span class="card-note">€ neto</span></div>
-      <div class="ch"><canvas id="cSI"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hdr"><span class="card-title">🛒 Sell Out por Familia</span><span class="card-note">YTD'25 vs '26</span></div>
-      <div class="ch"><canvas id="cFam"></canvas></div>
-    </div>
+    <div class="card"><div class="chdr"><span class="ctitle">📈 Sell In Mensual</span><span class="cnote">€ neto LM Spain</span></div><div class="ch"><canvas id="cSI"></canvas></div></div>
+    <div class="card"><div class="chdr"><span class="ctitle">🛒 Sell Out Familia</span><span class="cnote">YTD'25 vs '26</span></div><div class="ch"><canvas id="cFam"></canvas></div></div>
   </div>
   <div class="g2">
-    <div class="card">
-      <div class="card-hdr"><span class="card-title">👤 SI por Vendedor</span><span class="card-note">YTD Ene–Mar</span></div>
-      <div class="ch-lg"><canvas id="cCial"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hdr"><span class="card-title">🏪 Top 12 Tiendas SO</span><span class="card-note">k€ YTD'26</span></div>
-      <div class="ch-lg"><canvas id="cTopT"></canvas></div>
-    </div>
+    <div class="card"><div class="chdr"><span class="ctitle">👤 SI por Vendedor</span><span class="cnote">YTD Ene–Mar</span></div><div class="chl"><canvas id="cCial"></canvas></div></div>
+    <div class="card"><div class="chdr"><span class="ctitle">🏪 Top 12 Tiendas SO</span><span class="cnote">k€ YTD'26</span></div><div class="chl"><canvas id="cTopT"></canvas></div></div>
   </div>
 </div>
 
-<!-- ═══════════ VENDEDORES ═══════════ -->
-<div id="sec-vendedores" class="section">
+<!-- ══ VENDEDORES ══ -->
+<div id="sec-vendedores" class="sec">
   <div class="kpis" id="kpi-vend"></div>
   <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">👤 Rendimiento Vendedores</span>
-      <input class="srch" id="srchV" placeholder="Buscar…" oninput="renderV()">
+    <div class="chdr">
+      <span class="ctitle">👤 Rendimiento Vendedores</span>
+      <input class="srch" id="srV" placeholder="Buscar…" oninput="renderV()">
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th>Vendedor</th><th class="r">Tiendas</th>
-          <th class="r">SI YTD'25</th><th class="r">SI YTD'26</th><th class="r">Crec. SI</th>
-          <th class="r">SO YTD'25</th><th class="r">SO YTD'26</th><th class="r">Crec. SO</th>
-          <th>Estado</th>
-        </tr></thead>
-        <tbody id="tbV"></tbody>
-      </table>
-    </div>
+    <div class="tw"><table>
+      <thead><tr>
+        <th>Vendedor</th><th class="r">Tiendas</th>
+        <th class="r">SI YTD'25</th><th class="r">SI YTD'26</th><th class="r">Crec.SI</th>
+        <th class="r">SO YTD'25</th><th class="r">SO YTD'26</th><th class="r">Crec.SO</th>
+        <th>Estado</th>
+      </tr></thead>
+      <tbody id="tbV"></tbody>
+    </table></div>
   </div>
-  <div class="acciones" id="acc-vend" style="display:none"></div>
+  <div class="acc" id="acc-vend" style="display:none"></div>
 </div>
 
-<!-- ═══════════ TIENDAS ═══════════ -->
-<div id="sec-tiendas" class="section">
+<!-- ══ TIENDAS ══ -->
+<div id="sec-tiendas" class="sec">
+  <div class="kpis" id="kpi-tiend"></div>
   <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">🏪 Sell Out por Tienda</span>
+    <div class="chdr">
+      <span class="ctitle">🏪 Sell Out por Tienda</span>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <input class="srch" id="srchT" placeholder="Buscar…" oninput="renderT()">
+        <input class="srch" id="srT" placeholder="Buscar…" oninput="renderT()">
         <button class="tbtn on" id="bEur" onclick="tMode('eur')">€</button>
         <button class="tbtn" id="bUd" onclick="tMode('ud')">Ud.</button>
       </div>
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th>Tienda</th><th>Vendedor</th>
-          <th class="r">YTD'25</th><th class="r">YTD'26</th>
-          <th class="r">Crec.</th><th>Días Stock</th>
-          <th class="r">Stock Ud.</th><th>Estado</th>
-        </tr></thead>
-        <tbody id="tbT"></tbody>
-      </table>
-    </div>
+    <div class="tw"><table>
+      <thead><tr>
+        <th>Tienda</th><th>Vendedor</th><th>Familia top</th>
+        <th class="r">YTD'25</th><th class="r">YTD'26</th><th class="r">Crec.</th>
+        <th>Días Stock</th><th class="r">Stock Ud.</th><th>Estado</th>
+      </tr></thead>
+      <tbody id="tbT"></tbody>
+    </table></div>
   </div>
 </div>
 
-<!-- ═══════════ SKU ═══════════ -->
-<div id="sec-sku" class="section">
+<!-- ══ SKU ══ -->
+<div id="sec-sku" class="sec">
   <div class="g2">
-    <div class="card">
-      <div class="card-hdr"><span class="card-title">🍩 Mix por Familia</span><span class="card-note">SO YTD'26</span></div>
-      <div class="ch-lg"><canvas id="cFamD"></canvas></div>
-    </div>
-    <div class="card">
-      <div class="card-hdr"><span class="card-title">📉📈 Crec. por Producto</span><span class="card-note">Top 12 YTD</span></div>
-      <div class="ch-lg"><canvas id="cSkuG"></canvas></div>
-    </div>
+    <div class="card"><div class="chdr"><span class="ctitle">🍩 Mix Familia</span><span class="cnote">SO YTD'26</span></div><div class="chl"><canvas id="cFamD"></canvas></div></div>
+    <div class="card"><div class="chdr"><span class="ctitle">📈 Crec. Producto</span><span class="cnote">Top 12 YTD</span></div><div class="chl"><canvas id="cSkuG"></canvas></div></div>
   </div>
   <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">📦 Sell Out por SKU</span>
-      <input class="srch" id="srchSku" placeholder="Buscar…" oninput="renderSku()">
+    <div class="chdr">
+      <span class="ctitle">📦 Sell Out por SKU</span>
+      <input class="srch" id="srSku" placeholder="Buscar…" oninput="renderSku()">
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th>Producto</th>
-          <th class="r">SO '25 (€)</th><th class="r">SO '26 (€)</th>
-          <th class="r">Ud.'25</th><th class="r">Ud.'26</th>
-          <th class="r">Crec.€</th><th class="r">Crec.Ud.</th>
-        </tr></thead>
-        <tbody id="tbSku"></tbody>
-      </table>
-    </div>
+    <div class="tw"><table>
+      <thead><tr>
+        <th>Producto</th><th>Modelo WORX</th><th>Ref. LM</th><th>Gama</th><th>Familia</th>
+        <th class="r">SO'25 €</th><th class="r">SO'26 €</th>
+        <th class="r">Ud.'25</th><th class="r">Ud.'26</th>
+        <th class="r">Crec.€</th><th class="r">Crec.Ud.</th>
+      </tr></thead>
+      <tbody id="tbSku"></tbody>
+    </table></div>
   </div>
 </div>
 
-<!-- ═══════════ MARGEN ═══════════ -->
-<div id="sec-margen" class="section">
+<!-- ══ MARGEN ══ -->
+<div id="sec-margen" class="sec">
   <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">💰 Margen por Modelo</span>
-      <span class="card-note">PVP c/IVA ÷ 1,21 − Compra LM</span>
+    <div class="chdr">
+      <span class="ctitle">💰 Margen por Modelo</span>
+      <span class="cnote">PVP c/IVA ÷ 1,21 − Compra LM</span>
     </div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
-      <input class="srch" id="srchM" placeholder="Buscar…" oninput="renderM()">
-      <button class="tbtn on" id="bMpct" onclick="mSort('pct')">% ↓</button>
-      <button class="tbtn" id="bMeur" onclick="mSort('eur')">€ ↓</button>
-      <button class="tbtn" id="bMpvp" onclick="mSort('pvp')">PVP ↓</button>
+      <input class="srch" id="srM" placeholder="Buscar modelo…" oninput="renderM()">
+      <button class="tbtn on" id="bMp" onclick="mSort('pct')">% ↓</button>
+      <button class="tbtn" id="bMe" onclick="mSort('eur')">€ ↓</button>
+      <button class="tbtn" id="bMv" onclick="mSort('pvp')">PVP ↓</button>
     </div>
-    <div style="display:flex;gap:14px;margin-bottom:10px;font-size:11px">
-      <span><span class="dot dot-g"></span>≥25% Bueno</span>
-      <span><span class="dot dot-y"></span>15–24% Normal</span>
-      <span><span class="dot dot-r"></span>&lt;15% Bajo</span>
+    <div class="leg">
+      <span><span class="dot dg"></span>≥25% Bueno</span>
+      <span><span class="dot dy"></span>15–24% Normal</span>
+      <span><span class="dot dr"></span>&lt;15% Bajo</span>
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th>Modelo</th><th>Descripción</th>
-          <th class="r">PVP c/IVA</th><th class="r">PVP s/IVA</th>
-          <th class="r">Compra</th><th class="r">Margen €</th>
-          <th class="r">Margen %</th><th>Barra</th>
-        </tr></thead>
-        <tbody id="tbM"></tbody>
-      </table>
-    </div>
+    <div class="tw"><table>
+      <thead><tr>
+        <th>Modelo</th><th>Ref. LM</th><th>Gama</th><th>Descripción</th>
+        <th class="r">PVP c/IVA</th><th class="r">PVP s/IVA</th>
+        <th class="r">Compra</th><th class="r">Margen €</th><th class="r">Margen %</th><th>Barra</th>
+      </tr></thead>
+      <tbody id="tbM"></tbody>
+    </table></div>
   </div>
 </div>
 
-<!-- ═══════════ STOCK ═══════════ -->
-<div id="sec-stock" class="section">
+<!-- ══ STOCK ══ -->
+<div id="sec-stock" class="sec">
+  <div class="kpis" id="kpi-stock"></div>
   <div class="card">
-    <div class="card-hdr">
-      <span class="card-title">📋 Días de Stock</span>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-        <input class="srch" id="srchSt" placeholder="Buscar…" oninput="renderSt()">
-        <select class="fsel" id="fStFam" onchange="renderSt()" style="min-width:120px">
-          <option value="">Todas familias</option>
-          <option value="Electroportatil">Electroportátil</option>
-          <option value="Motorizado Jardin">Jardín</option>
-        </select>
-      </div>
+    <div class="chdr">
+      <span class="ctitle">📋 Días de Stock por Producto y Tienda</span>
+      <input class="srch" id="srSt" placeholder="Buscar…" oninput="renderSt()">
     </div>
-    <div style="display:flex;gap:14px;margin-bottom:10px;font-size:11px">
-      <span><span class="dot dot-g"></span>&lt;90d OK</span>
-      <span><span class="dot dot-y"></span>90–150d Atención</span>
-      <span><span class="dot dot-r"></span>&gt;150d Crítico</span>
+    <div class="leg">
+      <span><span class="dot dg"></span>&lt;90d OK</span>
+      <span><span class="dot dy"></span>90–150d Atención</span>
+      <span><span class="dot dr"></span>&gt;150d Crítico</span>
     </div>
-    <div class="tbl-wrap">
-      <table>
-        <thead><tr>
-          <th>Producto</th><th>Tienda</th><th>Vendedor</th><th>Familia</th>
-          <th class="r">Stock Ud.</th><th>Días Stock</th>
-          <th class="r">SO 12m €</th><th>Estado</th>
-        </tr></thead>
-        <tbody id="tbSt"></tbody>
-      </table>
-    </div>
+    <div class="tw"><table>
+      <thead><tr>
+        <th>Producto</th><th>Modelo WORX</th><th>Ref. LM</th><th>Gama</th>
+        <th>Tienda</th><th>Vendedor</th><th>Familia</th>
+        <th class="r">Stock Ud.</th><th>Días Stock</th>
+        <th class="r">SO 12m €</th><th>Estado</th>
+      </tr></thead>
+      <tbody id="tbSt"></tbody>
+    </table></div>
   </div>
 </div>
 
 </div><!-- /main -->
 
 <script>
-// ── DATA LOADING ──────────────────────────────────────
+// ── DATA ──────────────────────────────────────────────
 let D = null;
-let charts = {};
+let CH = {};
 
 fetch('data.json')
-  .then(r => r.json())
-  .then(data => {
-    D = data;
+  .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(d => {
+    D = d;
     initFilters();
     renderKPIs();
     initCharts();
     renderV();
     renderT();
+    renderTKPIs();
   })
   .catch(e => {
-    document.body.innerHTML = '<div style="padding:40px;color:red;font-family:sans-serif"><h2>Error cargando datos</h2><p>' + e + '</p><p>Asegúrate de que data.json está en la misma carpeta que index.html</p></div>';
+    document.querySelector('.main').innerHTML =
+      '<div style="padding:30px;color:#dc2626;font-family:sans-serif"><h2>Error cargando datos</h2><pre style="margin-top:10px;font-size:12px">'+e+'</pre><p style="margin-top:10px">Comprueba que data.json está en la misma carpeta que index.html</p></div>';
   });
 
 // ── HELPERS ───────────────────────────────────────────
-const fE = (v, d=0) => v == null ? '–' : new Intl.NumberFormat('es-ES',{minimumFractionDigits:d,maximumFractionDigits:d}).format(v) + '€';
-const fN = (v) => v == null ? '–' : new Intl.NumberFormat('es-ES').format(Math.round(v));
-const fP = (v) => v == null ? '–' : (v > 0 ? '+' : '') + v.toFixed(1) + '%';
+const fE = (v,d=0) => v==null?'–':new Intl.NumberFormat('es-ES',{minimumFractionDigits:d,maximumFractionDigits:d}).format(v)+'€';
+const fN = v => v==null?'–':new Intl.NumberFormat('es-ES').format(Math.round(v));
+const fP = v => v==null?'–':(v>0?'+':'')+v.toFixed(1)+'%';
 
-function pill(g) {
-  if (g == null) return '<span class="pill gray">N/D</span>';
-  if (g > 5)   return `<span class="pill up">▲ ${fP(g)}</span>`;
-  if (g < -5)  return `<span class="pill down">▼ ${fP(g)}</span>`;
-  return `<span class="pill flat">◆ ${fP(g)}</span>`;
+function pill(g,prefix=''){
+  if(g==null) return '<span class="pill pg">N/D</span>';
+  if(g>5)  return `<span class="pill pu">${prefix}▲ ${fP(g)}</span>`;
+  if(g<-5) return `<span class="pill pd">${prefix}▼ ${fP(g)}</span>`;
+  return `<span class="pill pf">${prefix}◆ ${fP(g)}</span>`;
 }
-function semaforo(d) {
-  if (d == null) return '<span class="pill gray">N/D</span>';
-  if (d < 90)   return `<span class="pill up">${Math.round(d)}d</span>`;
-  if (d < 150)  return `<span class="pill flat">${Math.round(d)}d</span>`;
-  return `<span class="pill down">${Math.round(d)}d</span>`;
+function dbar(d){
+  if(d==null) return '–';
+  const w=Math.min(100,(d/365)*100);
+  const c=d>150?'#EF4444':d>90?'#F59E0B':'#22C55E';
+  return `<div class="db"><div class="db-t"><div class="db-f" style="width:${w}%;background:${c}"></div></div><span class="db-n">${Math.round(d)}d</span></div>`;
 }
-function dbar(d) {
-  if (d == null) return '–';
-  const w = Math.min(100, (d/365)*100);
-  const c = d > 150 ? '#EF4444' : d > 90 ? '#F59E0B' : '#22C55E';
-  return `<div class="dbar"><div class="dbar-track"><div class="dbar-fill" style="width:${w}%;background:${c}"></div></div><span style="font-family:'Barlow Condensed';font-size:13px;font-weight:700;min-width:32px;text-align:right">${Math.round(d)}d</span></div>`;
+function estado(g,ds){
+  const e = g>5?'🟢':g<-15?'🔴':'🟡';
+  const w = ds>150?' ⚠️':'';
+  return e+w;
 }
-function destroyC(id) { if (charts[id]) { charts[id].destroy(); delete charts[id]; } }
+function destroyC(id){ if(CH[id]){CH[id].destroy();delete CH[id];} }
 
-// ── FILTERS ───────────────────────────────────────────
-function initFilters() {
-  const cs = document.getElementById('fCial');
-  const ts = document.getElementById('fTienda');
-  const fs = document.getElementById('fFam');
-  D.comerciales.forEach(c => cs.add(new Option(c.nombre, c.nombre)));
-  [...new Set(D.tiendas.map(t => t.tienda))].sort().forEach(t => ts.add(new Option(t, t)));
-  D.familias.forEach(f => fs.add(new Option(f.familia.replace('Consum.Y Accesor.Electroport','Accesorios').replace('z:Otros','Otros'), f.familia)));
+// ── FILTER STATE ─────────────────────────────────────
+const gFC=()=>document.getElementById('fC').value;
+const gFT=()=>document.getElementById('fT').value;
+const gFF=()=>document.getElementById('fF').value;
+const gFG=()=>document.getElementById('fG').value;
+
+function initFilters(){
+  const fc=document.getElementById('fC');
+  D.comerciales.forEach(c=>fc.add(new Option(c.nombre,c.nombre)));
+  const fg=document.getElementById('fG');
+  D.gamas.forEach(g=>fg.add(new Option('Gama '+g,g)));
+  const ff=document.getElementById('fF');
+  D.familias.forEach(f=>ff.add(new Option(f.familia.replace('Consum.Y Accesor.Electroport','Accesorios').replace('z:Otros','Otros'),f.familia)));
+  buildTiendasOptions('');
 }
-function applyF() { renderV(); renderT(); renderSku(); renderSt(); }
-function gFC() { return document.getElementById('fCial').value; }
-function gFT() { return document.getElementById('fTienda').value; }
-function gFF() { return document.getElementById('fFam').value; }
+
+function buildTiendasOptions(cial){
+  const ft=document.getElementById('fT');
+  const prev=ft.value;
+  ft.innerHTML='<option value="">Todas</option>';
+  let list;
+  if(cial){
+    const c=D.comerciales.find(x=>x.nombre===cial);
+    list=c?c.tiendas.map(t=>t.charAt(0)+t.slice(1).toLowerCase()):[];
+    // also add from tiendas data
+    const fromSO=D.tiendas.filter(t=>t.comercial===cial).map(t=>t.tienda);
+    list=[...new Set([...list,...fromSO])].sort();
+  } else {
+    list=[...new Set(D.tiendas.map(t=>t.tienda))].sort();
+  }
+  list.forEach(t=>ft.add(new Option(t,t)));
+  if(list.includes(prev)) ft.value=prev;
+}
+
+function onFCial(){
+  buildTiendasOptions(gFC());
+  applyF();
+}
+
+function applyF(){
+  renderV();
+  renderT(); renderTKPIs();
+  renderSku();
+  renderM();
+  renderSt(); renderStKPIs();
+}
+
+function resetF(){
+  document.getElementById('fC').value='';
+  document.getElementById('fT').value='';
+  document.getElementById('fF').value='';
+  document.getElementById('fG').value='';
+  buildTiendasOptions('');
+  applyF();
+}
 
 // ── SECTION NAV ───────────────────────────────────────
-function show(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.getElementById('sec-' + id).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  if (id === 'tiendas') renderT();
-  if (id === 'sku')     { renderSku(); initSkuCharts(); }
-  if (id === 'margen')  renderM();
-  if (id === 'stock')   renderSt();
-  if (id === 'vendedores') { renderV(); renderVKPIs(); }
+function show(id,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.getElementById('sec-'+id).classList.add('on');
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(id==='tiendas'){renderT();renderTKPIs();}
+  if(id==='sku'){renderSku();initSkuCharts();}
+  if(id==='margen'){renderM();}
+  if(id==='stock'){renderSt();renderStKPIs();}
+  if(id==='vendedores'){renderV();renderVKPIs();}
 }
 
-// ── KPI STRIP ─────────────────────────────────────────
-function renderKPIs() {
-  if (!D) return;
-  const k = D.kpis;
-  const cards = [
-    { lbl:"Sell In YTD'26", val: fE(k.si_ytd26), sub:`vs ${fE(k.si_ytd25)} ('25)`, g: k.si_growth, cls:'orange' },
-    { lbl:"Sell Out YTD'26", val: fE(k.so_ytd26), sub:`vs ${fE(k.so_ytd25)} ('25)`, g: k.so_growth, cls:'lm' },
-    { lbl:"SI Anual 2025", val: fE(k.si_full_2025), sub:`vs ${fE(k.si_full_2024)} ('24)`, g: parseFloat(((k.si_full_2025-k.si_full_2024)/k.si_full_2024*100).toFixed(1)), cls:'orange' },
-    { lbl:"Tiendas Activas", val: D.tiendas.filter(t=>t.so_ytd26>0).length, sub:`de ${D.tiendas.length} tiendas totales`, g: null, cls:'green' },
-  ];
-  document.getElementById('kpi-strip').innerHTML = cards.map(c => `
-    <div class="kpi ${c.cls}">
-      <div class="kpi-lbl">${c.lbl}</div>
-      <div class="kpi-val">${c.val}</div>
-      <div class="kpi-sub">${c.sub}</div>
-      ${c.g != null ? pill(c.g) : ''}
-    </div>`).join('');
-  renderAccGlobal();
+// ── KPIs MAIN ─────────────────────────────────────────
+function renderKPIs(){
+  if(!D)return;
+  const k=D.kpis;
+  const gr24_25=k.si_full_2024>0?parseFloat(((k.si_full_2025-k.si_full_2024)/k.si_full_2024*100).toFixed(1)):null;
+  document.getElementById('kpi-main').innerHTML=[
+    {l:"Sell In YTD'26",v:fE(k.si_ytd26),s:`vs ${fE(k.si_ytd25)} ('25)`,g:k.si_growth,c:'o'},
+    {l:"Sell Out YTD'26",v:fE(k.so_ytd26),s:`vs ${fE(k.so_ytd25)} ('25)`,g:k.so_growth,c:'l'},
+    {l:"SI Anual 2025",v:fE(k.si_full_2025),s:`vs ${fE(k.si_full_2024)} ('24)`,g:gr24_25,c:'o'},
+    {l:"Tiendas con SO",v:D.tiendas.filter(t=>t.so_ytd26>0).length,s:`de ${D.tiendas.length} totales`,g:null,c:'g'},
+  ].map(c=>`<div class="kpi ${c.c}"><div class="kpi-l">${c.l}</div><div class="kpi-v">${c.v}</div><div class="kpi-s">${c.s}</div>${c.g!=null?pill(c.g):''}</div>`).join('');
+  renderAccMain();
 }
 
-function renderAccGlobal() {
-  const k = D.kpis;
-  const acc = [];
-  if (k.si_growth < -10) acc.push({i:'⚡', t:`<strong>Sell In cae ${Math.abs(k.si_growth).toFixed(0)}% YTD.</strong> Activa reposición en tiendas con rotura y negocia cabeceras de temporada. Objetivo: +15% próximos 30 días.`});
-  if (k.so_growth < -10) acc.push({i:'🎯', t:`<strong>Sell Out baja ${Math.abs(k.so_growth).toFixed(0)}%.</strong> Problema de ejecución: producto disponible pero no se vende. Revisa facing, ubicación y demos en tienda. Jardín crece +1.7% → prioriza esa familia.`});
-  const topT = [...D.tiendas].sort((a,b)=>b.so_ytd26-a.so_ytd26)[0];
-  if (topT) acc.push({i:'🏆', t:`<strong>Mejor tienda: ${topT.tienda}</strong> (${fE(topT.so_ytd26)}). Replica su modelo de ejecución en las 5 tiendas con menor SO.`});
-  const crit = D.stock.filter(s=>s.dias_stock>150).length;
-  if (crit>0) acc.push({i:'🚨', t:`<strong>${crit} referencias con +150 días de stock.</strong> Propón promoción puntual a LM o reequilibrio entre tiendas.`});
-  acc.push({i:'💡', t:`<strong>Jardín Motorizado: única familia con crecimiento (+1.7% SO).</strong> Amplía surtido robots y maximiza visibilidad en temporada pico Mar–Jun.`});
-  document.getElementById('acc-global').innerHTML = `
-    <div class="acc-title">⚡ Acciones Prioritarias</div>
-    ${acc.map(a=>`<div class="acc-item"><span class="acc-icon">${a.i}</span><span class="acc-txt">${a.t}</span></div>`).join('')}`;
+function renderAccMain(){
+  const k=D.kpis;
+  const acc=[];
+  if(k.si_growth<-10) acc.push({i:'⚡',t:`<strong>Sell In cae ${Math.abs(k.si_growth).toFixed(0)}% YTD (LM Spain).</strong> Activa reposición en tiendas con rotura y negocia cabeceras de temporada.`});
+  if(k.so_growth<-10) acc.push({i:'🎯',t:`<strong>Sell Out baja ${Math.abs(k.so_growth).toFixed(0)}%.</strong> Producto disponible pero no se vende → problema de ejecución. Revisa facing y demos. Jardín crece +1.7% → prioriza esa familia.`});
+  const topT=[...D.tiendas].sort((a,b)=>b.so_ytd26-a.so_ytd26)[0];
+  if(topT) acc.push({i:'🏆',t:`<strong>Mejor tienda: ${topT.tienda}</strong> (${fE(topT.so_ytd26)}). Replica su ejecución en las 5 tiendas con menor SO.`});
+  const crit=D.stock.filter(s=>s.dias_stock>150).length;
+  if(crit>0) acc.push({i:'🚨',t:`<strong>${crit} referencias con +150 días de stock.</strong> Propón promoción puntual a LM o reequilibrio entre tiendas.`});
+  acc.push({i:'💡',t:`<strong>Jardín Motorizado: única familia en positivo (+1.7% SO).</strong> Amplía surtido robots y maximiza visibilidad en temporada pico Mar–Jun.`});
+  document.getElementById('acc-main').innerHTML=`<div class="at">⚡ Acciones Prioritarias</div>${acc.map(a=>`<div class="ai"><span class="ai-i">${a.i}</span><span class="ai-t">${a.t}</span></div>`).join('')}`;
 }
 
 // ── CHARTS ────────────────────────────────────────────
-function initCharts() {
-  if (!D) return;
-  const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  const baseOpts = { responsive:true, maintainAspectRatio:false, animation:{duration:600} };
+const cOpts={responsive:true,maintainAspectRatio:false,animation:{duration:500}};
+const tickY=v=>(v/1000).toFixed(0)+'k€';
+const axY={ticks:{callback:tickY,font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}};
+const axX={ticks:{font:{size:10}},grid:{display:false}};
+const legOpts={position:'top',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}};
 
-  // Sell In line
+function initCharts(){
+  if(!D)return;
+  const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
   destroyC('cSI');
-  charts['cSI'] = new Chart(document.getElementById('cSI'), {
-    type:'line',
-    data: {
-      labels: months,
-      datasets: [
-        { label:'2024', data: D.monthly_si['2024'], borderColor:'#D1D5DB', backgroundColor:'rgba(209,213,219,0.08)', borderWidth:1.5, pointRadius:2, tension:0.3, spanGaps:true },
-        { label:'2025', data: D.monthly_si['2025'], borderColor:'#9CA3AF', backgroundColor:'rgba(156,163,175,0.08)', borderWidth:2, pointRadius:2, tension:0.3, spanGaps:true },
-        { label:'2026', data: D.monthly_si['2026'], borderColor:'#F47920', backgroundColor:'rgba(244,121,32,0.1)', borderWidth:3, pointRadius:5, tension:0.3, spanGaps:true }
-      ]
-    },
-    options: { ...baseOpts, plugins:{legend:{position:'top',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}}},
-      scales:{ y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k€',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}}, x:{ticks:{font:{size:10}},grid:{display:false}} } }
-  });
+  CH['cSI']=new Chart(document.getElementById('cSI'),{type:'line',data:{labels:months,datasets:[
+    {label:'2024',data:D.monthly_si['2024'],borderColor:'#D1D5DB',borderWidth:1.5,pointRadius:2,tension:.3,spanGaps:true,backgroundColor:'rgba(209,213,219,0.06)'},
+    {label:'2025',data:D.monthly_si['2025'],borderColor:'#9CA3AF',borderWidth:2,pointRadius:2,tension:.3,spanGaps:true,backgroundColor:'rgba(156,163,175,0.06)'},
+    {label:'2026',data:D.monthly_si['2026'],borderColor:'#F47920',borderWidth:3,pointRadius:5,tension:.3,spanGaps:true,backgroundColor:'rgba(244,121,32,0.09)'}
+  ]},options:{...cOpts,plugins:{legend:legOpts},scales:{y:axY,x:axX}}});
 
-  // Familias bar
   destroyC('cFam');
-  const fams = D.familias;
-  charts['cFam'] = new Chart(document.getElementById('cFam'), {
-    type:'bar',
-    data: {
-      labels: fams.map(f=>f.familia.replace('Consum.Y Accesor.Electroport','Accesorios').replace('Electroportatil','Electrop.').replace('Motorizado Jardin','Jardín').replace('z:Otros','Otros')),
-      datasets: [
-        { label:"'25", data:fams.map(f=>f.so25), backgroundColor:'rgba(156,163,175,0.55)', borderRadius:3 },
-        { label:"'26", data:fams.map(f=>f.so26), backgroundColor:'#F47920', borderRadius:3 }
-      ]
-    },
-    options: { ...baseOpts, plugins:{legend:{position:'top',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}}},
-      scales:{ y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k€',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}}, x:{ticks:{font:{size:10}},grid:{display:false}} } }
-  });
+  const fams=D.familias;
+  CH['cFam']=new Chart(document.getElementById('cFam'),{type:'bar',data:{labels:fams.map(f=>f.familia.replace('Consum.Y Accesor.Electroport','Accesorios').replace('Electroportatil','Electrop.').replace('Motorizado Jardin','Jardín').replace('z:Otros','Otros')),datasets:[
+    {label:"'25",data:fams.map(f=>f.so25),backgroundColor:'rgba(156,163,175,0.55)',borderRadius:3},
+    {label:"'26",data:fams.map(f=>f.so26),backgroundColor:'#F47920',borderRadius:3}
+  ]},options:{...cOpts,plugins:{legend:legOpts},scales:{y:axY,x:axX}}});
 
-  // Ciales bar
   destroyC('cCial');
-  const ci = D.comerciales.filter(c=>c.si_ytd26>0||c.si_ytd25>0).sort((a,b)=>b.si_ytd26-a.si_ytd26);
-  charts['cCial'] = new Chart(document.getElementById('cCial'), {
-    type:'bar',
-    data: {
-      labels: ci.map(c=>{ const p=c.nombre.split(' '); return p[0].slice(0,8)+(p[1]?' '+p[1][0]+'.':''); }),
-      datasets: [
-        { label:"'25", data:ci.map(c=>c.si_ytd25), backgroundColor:'rgba(156,163,175,0.55)', borderRadius:3 },
-        { label:"'26", data:ci.map(c=>c.si_ytd26), backgroundColor:'#F47920', borderRadius:3 }
-      ]
-    },
-    options: { ...baseOpts, plugins:{legend:{position:'top',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}}},
-      scales:{ y:{ticks:{callback:v=>(v/1000).toFixed(0)+'k€',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}}, x:{ticks:{font:{size:10}},grid:{display:false}} } }
-  });
+  const ci=D.comerciales.filter(c=>c.si_ytd26>0||c.si_ytd25>0).sort((a,b)=>b.si_ytd26-a.si_ytd26);
+  CH['cCial']=new Chart(document.getElementById('cCial'),{type:'bar',data:{labels:ci.map(c=>{const p=c.nombre.split(' ');return p[0].slice(0,8)+(p[1]?' '+p[1][0]+'.':'');}),datasets:[
+    {label:"'25",data:ci.map(c=>c.si_ytd25),backgroundColor:'rgba(156,163,175,0.55)',borderRadius:3},
+    {label:"'26",data:ci.map(c=>c.si_ytd26),backgroundColor:'#F47920',borderRadius:3}
+  ]},options:{...cOpts,plugins:{legend:legOpts},scales:{y:axY,x:axX}}});
 
-  // Top tiendas horizontal
   destroyC('cTopT');
-  const topT = [...D.tiendas].sort((a,b)=>b.so_ytd26-a.so_ytd26).slice(0,12);
-  charts['cTopT'] = new Chart(document.getElementById('cTopT'), {
-    type:'bar',
-    data: {
-      labels: topT.map(t=>t.tienda.length>16?t.tienda.slice(0,16)+'…':t.tienda),
-      datasets: [
-        { label:"'25", data:topT.map(t=>t.so_ytd25), backgroundColor:'rgba(156,163,175,0.55)', borderRadius:3 },
-        { label:"'26", data:topT.map(t=>t.so_ytd26), backgroundColor:'#78BE20', borderRadius:3 }
-      ]
-    },
-    options: { ...baseOpts, indexAxis:'y',
-      plugins:{legend:{position:'top',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}}},
-      scales:{ x:{ticks:{callback:v=>(v/1000).toFixed(0)+'k€',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}}, y:{ticks:{font:{size:10}},grid:{display:false}} } }
-  });
+  const topT=[...D.tiendas].sort((a,b)=>b.so_ytd26-a.so_ytd26).slice(0,12);
+  CH['cTopT']=new Chart(document.getElementById('cTopT'),{type:'bar',data:{labels:topT.map(t=>t.tienda.length>16?t.tienda.slice(0,16)+'…':t.tienda),datasets:[
+    {label:"'25",data:topT.map(t=>t.so_ytd25),backgroundColor:'rgba(156,163,175,0.55)',borderRadius:3},
+    {label:"'26",data:topT.map(t=>t.so_ytd26),backgroundColor:'#78BE20',borderRadius:3}
+  ]},options:{...cOpts,indexAxis:'y',plugins:{legend:legOpts},scales:{x:{ticks:{callback:tickY,font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}},y:{ticks:{font:{size:10}},grid:{display:false}}}}});
 }
 
-function initSkuCharts() {
-  if (!D) return;
-  destroyC('cFamD');
-  charts['cFamD'] = new Chart(document.getElementById('cFamD'), {
-    type:'doughnut',
-    data: {
-      labels: D.familias.map(f=>f.familia.replace('Consum.Y Accesor.Electroport','Accesorios').replace('Electroportatil','Electrop.').replace('Motorizado Jardin','Jardín').replace('z:Otros','Otros')),
-      datasets:[{ data:D.familias.map(f=>f.so26), backgroundColor:['#F47920','#78BE20','#1C1C1C','#9CA3AF'], borderWidth:2, borderColor:'white' }]
-    },
-    options: { responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{position:'bottom',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}},
-        tooltip:{callbacks:{label:ctx=>ctx.label+': '+fE(ctx.raw)}} } }
-  });
+function initSkuCharts(){
+  if(!D)return;
+  const fc=gFC(),ft=gFT(),ff=gFF(),fg=gFG();
+  let prods=[...D.productos];
+  if(ff) prods=prods.filter(p=>p.familia===ff);
+  if(fg) prods=prods.filter(p=>p.gama===fg);
+  const q=(document.getElementById('srSku')||{}).value?.toLowerCase()||'';
+  if(q) prods=prods.filter(p=>p.sku.toLowerCase().includes(q)||p.modelo.toLowerCase().includes(q));
 
+  const famMap={};
+  prods.forEach(p=>{famMap[p.familia]=(famMap[p.familia]||0)+p.so26;});
+  const famKeys=Object.keys(famMap);
+  destroyC('cFamD');
+  CH['cFamD']=new Chart(document.getElementById('cFamD'),{type:'doughnut',data:{
+    labels:famKeys.map(f=>f.replace('Consum.Y Accesor.Electroport','Accesorios').replace('Electroportatil','Electrop.').replace('Motorizado Jardin','Jardín').replace('z:Otros','Otros')),
+    datasets:[{data:famKeys.map(k=>famMap[k]),backgroundColor:['#F47920','#78BE20','#1C1C1C','#9CA3AF','#F59E0B'],borderWidth:2,borderColor:'#fff'}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Barlow Condensed',size:11},boxWidth:10}},tooltip:{callbacks:{label:ctx=>ctx.label+': '+fE(ctx.raw)}}}}});
+
+  const skus=prods.filter(p=>p.so25>0).sort((a,b)=>(b.growth||0)-(a.growth||0)).slice(0,12);
   destroyC('cSkuG');
-  const skus = D.productos.filter(p=>p.so25>0).sort((a,b)=>(b.growth||0)-(a.growth||0)).slice(0,12);
-  charts['cSkuG'] = new Chart(document.getElementById('cSkuG'), {
-    type:'bar',
-    data: {
-      labels: skus.map(p=>p.sku.length>30?p.sku.slice(0,30)+'…':p.sku),
-      datasets:[{ label:'Crec. %', data:skus.map(p=>p.growth), backgroundColor:skus.map(p=>(p.growth||0)>=0?'#F47920':'#EF4444'), borderRadius:3 }]
-    },
-    options: { responsive:true, maintainAspectRatio:false, indexAxis:'y',
-      plugins:{legend:{display:false}},
-      scales:{ x:{ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}}, y:{ticks:{font:{size:9}},grid:{display:false}} } }
-  });
+  CH['cSkuG']=new Chart(document.getElementById('cSkuG'),{type:'bar',data:{
+    labels:skus.map(p=>p.sku.length>28?p.sku.slice(0,28)+'…':p.sku),
+    datasets:[{label:'Crec.%',data:skus.map(p=>p.growth),backgroundColor:skus.map(p=>(p.growth||0)>=0?'#F47920':'#EF4444'),borderRadius:3}]
+  },options:{...cOpts,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'rgba(0,0,0,0.04)'}},y:{ticks:{font:{size:9}},grid:{display:false}}}}});
 }
 
 // ── VENDEDORES ────────────────────────────────────────
-function renderVKPIs() {
-  if (!D) return;
-  const fc = gFC();
-  const data = fc ? D.comerciales.filter(c=>c.nombre===fc) : D.comerciales;
-  const si25=data.reduce((a,c)=>a+c.si_ytd25,0), si26=data.reduce((a,c)=>a+c.si_ytd26,0);
-  const so25=data.reduce((a,c)=>a+c.so_ytd25,0), so26=data.reduce((a,c)=>a+c.so_ytd26,0);
-  const sig = si25>0 ? (si26-si25)/si25*100 : null;
-  const sog = so25>0 ? (so26-so25)/so25*100 : null;
-  document.getElementById('kpi-vend').innerHTML = `
-    <div class="kpi orange"><div class="kpi-lbl">SI YTD'26</div><div class="kpi-val">${fE(si26)}</div>${pill(sig?parseFloat(sig.toFixed(1)):null)}</div>
-    <div class="kpi lm"><div class="kpi-lbl">SO YTD'26</div><div class="kpi-val">${fE(so26)}</div>${pill(sog?parseFloat(sog.toFixed(1)):null)}</div>`;
+function renderVKPIs(){
+  if(!D)return;
+  const fc=gFC();
+  const data=fc?D.comerciales.filter(c=>c.nombre===fc):D.comerciales;
+  const si25=data.reduce((a,c)=>a+c.si_ytd25,0),si26=data.reduce((a,c)=>a+c.si_ytd26,0);
+  const so25=data.reduce((a,c)=>a+c.so_ytd25,0),so26=data.reduce((a,c)=>a+c.so_ytd26,0);
+  const sig=si25>0?parseFloat(((si26-si25)/si25*100).toFixed(1)):null;
+  const sog=so25>0?parseFloat(((so26-so25)/so25*100).toFixed(1)):null;
+  document.getElementById('kpi-vend').innerHTML=`
+    <div class="kpi o"><div class="kpi-l">SI YTD'26${fc?' · '+fc:''}</div><div class="kpi-v">${fE(si26)}</div>${pill(sig)}</div>
+    <div class="kpi l"><div class="kpi-l">SO YTD'26${fc?' · '+fc:''}</div><div class="kpi-v">${fE(so26)}</div>${pill(sog)}</div>`;
 }
 
-function renderV() {
-  if (!D) return;
-  const q = (document.getElementById('srchV')||{}).value?.toLowerCase()||'';
-  const fc = gFC();
-  let data = D.comerciales.filter(c=>c.si_ytd26>0||c.si_ytd25>0||c.so_ytd26>0);
-  if (fc) data = data.filter(c=>c.nombre===fc);
-  if (q)  data = data.filter(c=>c.nombre.toLowerCase().includes(q));
+function renderV(){
+  if(!D)return;
+  const q=(document.getElementById('srV')||{}).value?.toLowerCase()||'';
+  const fc=gFC();
+  let data=D.comerciales.filter(c=>c.si_ytd26>0||c.si_ytd25>0||c.so_ytd26>0);
+  if(fc) data=data.filter(c=>c.nombre===fc);
+  if(q)  data=data.filter(c=>c.nombre.toLowerCase().includes(q));
   data.sort((a,b)=>b.si_ytd26-a.si_ytd26);
-  document.getElementById('tbV').innerHTML = data.map(c=>{
-    const est = (c.si_growth||0)>0 ? '🟢' : (c.si_growth||0)>-15 ? '🟡' : '🔴';
+  document.getElementById('tbV').innerHTML=data.map(c=>{
+    const est=(c.si_growth||0)>0?'🟢':(c.si_growth||0)>-15?'🟡':'🔴';
     return `<tr>
       <td style="font-weight:600">${c.nombre}</td>
       <td class="r">${c.tiendas.length}</td>
@@ -780,128 +534,205 @@ function renderV() {
       <td>${est} ${(c.si_growth||0)>0?'Creciendo':(c.si_growth||0)>-15?'Estable':'Alerta'}</td>
     </tr>`;
   }).join('');
-  if (fc) renderAccVend(fc);
+  if(fc) renderAccVend(fc);
   else document.getElementById('acc-vend').style.display='none';
+  renderVKPIs();
 }
 
-function renderAccVend(nombre) {
-  const c = D.comerciales.find(x=>x.nombre===nombre);
-  if (!c) return;
-  const el = document.getElementById('acc-vend');
+function renderAccVend(nombre){
+  const c=D.comerciales.find(x=>x.nombre===nombre);
+  if(!c)return;
+  const el=document.getElementById('acc-vend');
   el.style.display='block';
   const acc=[];
-  if ((c.si_growth||0)<-20) acc.push({i:'⚡',t:`<strong>Sell In cae ${Math.abs(c.si_growth||0).toFixed(0)}%</strong>. Revisar pedidos pendientes y roturas. Visita urgente a zona.`});
-  if ((c.so_growth||0)<-15) acc.push({i:'🎯',t:`<strong>Sell Out baja ${Math.abs(c.so_growth||0).toFixed(0)}%</strong>. Revisar facing y demos en tiendas. Proponer acción promocional.`});
-  if ((c.so_growth||0)>10)  acc.push({i:'🏆',t:`<strong>Sell Out +${(c.so_growth||0).toFixed(0)}%</strong>. Excelente ejecución. Proponer ampliación de espacio o nuevas referencias.`});
-  const crit = D.stock.filter(s=>s.comercial===nombre&&s.dias_stock>150).length;
-  if (crit>0) acc.push({i:'🚨',t:`<strong>${crit} SKUs con stock crítico (+150d)</strong>. Actuar con promo o reequilibrio.`});
-  acc.push({i:'💡',t:`Tiendas: <strong>${c.tiendas.slice(0,8).join(', ')}${c.tiendas.length>8?'…':''}</strong>`});
-  el.innerHTML=`<div class="acc-title">🎯 Acciones para ${nombre}</div>${acc.map(a=>`<div class="acc-item"><span class="acc-icon">${a.i}</span><span class="acc-txt">${a.t}</span></div>`).join('')}`;
+  if((c.si_growth||0)<-20) acc.push({i:'⚡',t:`<strong>Sell In cae ${Math.abs(c.si_growth||0).toFixed(0)}%.</strong> Revisar pedidos pendientes y roturas. Programar visita urgente a zona.`});
+  if((c.so_growth||0)<-15) acc.push({i:'🎯',t:`<strong>Sell Out baja ${Math.abs(c.so_growth||0).toFixed(0)}%.</strong> Revisar facing, ubicación y demos en tiendas. Proponer acción promocional.`});
+  if((c.so_growth||0)>10)  acc.push({i:'🏆',t:`<strong>Sell Out +${(c.so_growth||0).toFixed(0)}%.</strong> Excelente ejecución. Proponer ampliación de espacio o nuevas referencias.`});
+  const crit=D.stock.filter(s=>s.comercial===nombre&&s.dias_stock>150).length;
+  if(crit>0) acc.push({i:'🚨',t:`<strong>${crit} SKUs con stock crítico (+150d) en zona.</strong> Actuar con promo puntual o reequilibrio entre tiendas.`});
+  acc.push({i:'🏪',t:`Tiendas asignadas (${c.tiendas.length}): <strong>${c.tiendas.slice(0,10).join(', ')}${c.tiendas.length>10?'…':''}</strong>`});
+  el.innerHTML=`<div class="at">🎯 Acciones para ${nombre}</div>${acc.map(a=>`<div class="ai"><span class="ai-i">${a.i}</span><span class="ai-t">${a.t}</span></div>`).join('')}`;
 }
 
 // ── TIENDAS ───────────────────────────────────────────
-let tiendaMode = 'eur';
-function tMode(m) {
-  tiendaMode = m;
+let tM='eur';
+function tMode(m){
+  tM=m;
   document.getElementById('bEur').className='tbtn'+(m==='eur'?' on':'');
   document.getElementById('bUd').className='tbtn'+(m==='ud'?' on':'');
   renderT();
 }
-function renderT() {
-  if (!D) return;
-  const q  = (document.getElementById('srchT')||{}).value?.toLowerCase()||'';
-  const fc = gFC(), ft = gFT();
-  let data = [...D.tiendas];
-  if (fc) data = data.filter(t=>t.comercial===fc);
-  if (ft) data = data.filter(t=>t.tienda===ft);
-  if (q)  data = data.filter(t=>t.tienda.toLowerCase().includes(q)||(t.comercial||'').toLowerCase().includes(q));
+
+function renderTKPIs(){
+  if(!D)return;
+  const data=filteredTiendas();
+  const so25=data.reduce((a,t)=>a+t.so_ytd25,0);
+  const so26=data.reduce((a,t)=>a+t.so_ytd26,0);
+  const g=so25>0?parseFloat(((so26-so25)/so25*100).toFixed(1)):null;
+  const dsOk=data.filter(t=>t.dias_stock!=null&&t.dias_stock<90).length;
+  const dsCrit=data.filter(t=>t.dias_stock!=null&&t.dias_stock>150).length;
+  document.getElementById('kpi-tiend').innerHTML=`
+    <div class="kpi l"><div class="kpi-l">SO YTD'26 (filtrado)</div><div class="kpi-v">${fE(so26)}</div>${pill(g)}</div>
+    <div class="kpi g"><div class="kpi-l">Stock OK (&lt;90d)</div><div class="kpi-v">${dsOk}</div><div class="kpi-s">tiendas con stock sano</div></div>
+    <div class="kpi r"><div class="kpi-l">Stock Crítico (&gt;150d)</div><div class="kpi-v">${dsCrit}</div><div class="kpi-s">tiendas requieren acción</div></div>`;
+}
+
+function filteredTiendas(){
+  const fc=gFC(),ft=gFT(),ff=gFF();
+  const q=(document.getElementById('srT')||{}).value?.toLowerCase()||'';
+  let data=[...D.tiendas];
+  if(fc) data=data.filter(t=>t.comercial===fc);
+  if(ft) data=data.filter(t=>t.tienda===ft);
+  if(q)  data=data.filter(t=>t.tienda.toLowerCase().includes(q)||(t.comercial||'').toLowerCase().includes(q));
+  // familia filter: get tiendas that have SO for that familia
+  if(ff){
+    const tiendasConFam=new Set(D.productos.filter(p=>p.familia===ff).flatMap(p=>[]));
+    // filter from stock data
+    const tFam=new Set(D.stock.filter(s=>s.familia===ff).map(s=>s.tienda.toLowerCase()));
+    data=data.filter(t=>tFam.has(t.tienda.toLowerCase()));
+  }
+  return data;
+}
+
+function renderT(){
+  if(!D)return;
+  let data=filteredTiendas();
   data.sort((a,b)=>b.so_ytd26-a.so_ytd26);
-  const v25 = t => tiendaMode==='eur' ? t.so_ytd25 : t.so_ud25;
-  const v26 = t => tiendaMode==='eur' ? t.so_ytd26 : t.so_ud26;
-  const fV  = v => tiendaMode==='eur' ? fE(v) : fN(v)+' ud.';
-  document.getElementById('tbT').innerHTML = data.map(t=>`<tr>
+  const v25=t=>tM==='eur'?t.so_ytd25:t.so_ud25;
+  const v26=t=>tM==='eur'?t.so_ytd26:t.so_ud26;
+  const fV=v=>tM==='eur'?fE(v):fN(v)+' ud.';
+  // get top familia per tienda from stock
+  const famPerTienda={};
+  D.stock.forEach(s=>{
+    const k=s.tienda.toLowerCase();
+    if(!famPerTienda[k]) famPerTienda[k]={};
+    famPerTienda[k][s.familia]=(famPerTienda[k][s.familia]||0)+s.stock_ud;
+  });
+  function topFam(tienda){
+    const f=famPerTienda[tienda.toLowerCase()];
+    if(!f) return '–';
+    const top=Object.entries(f).sort((a,b)=>b[1]-a[1])[0];
+    return top?top[0].replace('Motorizado Jardin','🌿 Jardín').replace('Electroportatil','🔧 Electrop.'):'–';
+  }
+  document.getElementById('tbT').innerHTML=data.map(t=>`<tr>
     <td style="font-weight:600">${t.tienda}</td>
     <td>${t.comercial||'N/A'}</td>
+    <td><small>${topFam(t.tienda)}</small></td>
     <td class="r">${fV(v25(t))}</td><td class="r"><strong>${fV(v26(t))}</strong></td>
     <td class="r">${pill(t.growth)}</td>
     <td>${dbar(t.dias_stock)}</td>
     <td class="r">${fN(t.stock_ud)} ud.</td>
-    <td>${t.growth>5?'🟢':t.growth<-15?'🔴':'🟡'}${t.dias_stock>150?' ⚠️':''}</td>
+    <td>${estado(t.growth||0,t.dias_stock||0)}</td>
   </tr>`).join('');
+  renderTKPIs();
 }
 
 // ── SKU ───────────────────────────────────────────────
-function renderSku() {
-  if (!D) return;
-  const q = (document.getElementById('srchSku')||{}).value?.toLowerCase()||'';
-  let data = [...D.productos];
-  if (q) data = data.filter(p=>p.sku.toLowerCase().includes(q));
-  document.getElementById('tbSku').innerHTML = data.map(p=>{
-    const ugr = p.ud25>0 ? parseFloat(((p.ud26-p.ud25)/p.ud25*100).toFixed(1)) : null;
+function renderSku(){
+  if(!D)return;
+  const q=(document.getElementById('srSku')||{}).value?.toLowerCase()||'';
+  const fc=gFC(),ft=gFT(),ff=gFF(),fg=gFG();
+  let data=[...D.productos];
+  if(ff) data=data.filter(p=>p.familia===ff);
+  if(fg) data=data.filter(p=>p.gama===fg);
+  if(q)  data=data.filter(p=>p.sku.toLowerCase().includes(q)||p.modelo.toLowerCase().includes(q)||p.ref_lm.toLowerCase().includes(q));
+  document.getElementById('tbSku').innerHTML=data.map(p=>{
+    const ug=p.ud25>0?parseFloat(((p.ud26-p.ud25)/p.ud25*100).toFixed(1)):null;
     return `<tr>
-      <td class="name" style="max-width:260px">${p.sku}</td>
+      <td class="nm" style="max-width:220px">${p.sku}</td>
+      <td><span class="pill pf">${p.modelo}</span></td>
+      <td><span class="pill pg">${p.ref_lm}</span></td>
+      <td><span class="pill pg">${p.gama||'–'}</span></td>
+      <td><small>${p.familia.replace('Motorizado Jardin','🌿 Jardín').replace('Electroportatil','🔧 Electrop.').replace('Consum.Y Accesor.Electroport','Accesorios').replace('z:Otros','Otros')}</small></td>
       <td class="r">${fE(p.so25)}</td><td class="r"><strong>${fE(p.so26)}</strong></td>
       <td class="r">${fN(p.ud25)}</td><td class="r"><strong>${fN(p.ud26)}</strong></td>
-      <td class="r">${pill(p.growth)}</td><td class="r">${pill(ugr)}</td>
+      <td class="r">${pill(p.growth)}</td><td class="r">${pill(ug)}</td>
     </tr>`;
   }).join('');
+  initSkuCharts();
 }
 
 // ── MARGEN ────────────────────────────────────────────
-let mSortKey = 'pct';
-function mSort(k) {
-  mSortKey = k;
-  ['pct','eur','pvp'].forEach(x => document.getElementById('bM'+x).className='tbtn'+(x===k?' on':''));
+let mSK='pct';
+function mSort(k){
+  mSK=k;
+  ['p','e','v'].forEach(x=>document.getElementById('bM'+x).className='tbtn');
+  document.getElementById('bM'+k[0]).className='tbtn on';
   renderM();
 }
-function renderM() {
-  if (!D) return;
-  const q = (document.getElementById('srchM')||{}).value?.toLowerCase()||'';
-  let data = D.margin.filter(m=>m.compra!=null&&m.margen_pct!=null);
-  if (q) data = data.filter(m=>(m.modelo+m.desc).toLowerCase().includes(q));
-  if (mSortKey==='pct') data.sort((a,b)=>b.margen_pct-a.margen_pct);
-  else if (mSortKey==='eur') data.sort((a,b)=>b.margen_eur-a.margen_eur);
+function renderM(){
+  if(!D)return;
+  const q=(document.getElementById('srM')||{}).value?.toLowerCase()||'';
+  const fg=gFG(), ff=gFF();
+  let data=D.margin.filter(m=>m.compra!=null&&m.margen_pct!=null);
+  if(fg) data=data.filter(m=>m.gama===fg);
+  if(q)  data=data.filter(m=>(m.modelo+m.desc+m.ref_lm).toLowerCase().includes(q));
+  if(mSK==='pct') data.sort((a,b)=>b.margen_pct-a.margen_pct);
+  else if(mSK==='eur') data.sort((a,b)=>b.margen_eur-a.margen_eur);
   else data.sort((a,b)=>b.pvp-a.pvp);
-  document.getElementById('tbM').innerHTML = data.map(m=>{
-    const w = Math.max(0,Math.min(100,m.margen_pct));
-    const c = m.margen_pct>=25?'#22C55E':m.margen_pct>=15?'#F59E0B':'#EF4444';
-    const bc = m.margen_pct>=25?'up':m.margen_pct>=15?'flat':'down';
+  document.getElementById('tbM').innerHTML=data.map(m=>{
+    const w=Math.max(0,Math.min(100,m.margen_pct));
+    const c=m.margen_pct>=25?'#22C55E':m.margen_pct>=15?'#F59E0B':'#EF4444';
+    const bc=m.margen_pct>=25?'pu':m.margen_pct>=15?'pf':'pd';
     return `<tr>
-      <td><span class="pill flat">${m.modelo}</span></td>
-      <td class="name" style="max-width:220px">${m.desc}</td>
+      <td><span class="pill pf">${m.modelo}</span></td>
+      <td><span class="pill pg">${m.ref_lm}</span></td>
+      <td><span class="pill pg">${m.gama||'–'}</span></td>
+      <td class="nm" style="max-width:200px">${m.desc}</td>
       <td class="r">${m.pvp.toFixed(2)}€</td>
       <td class="r">${m.pvp_siniva.toFixed(2)}€</td>
       <td class="r">${m.compra.toFixed(2)}€</td>
-      <td class="r"><strong>${m.margen_eur.toFixed(2)}€</strong></td>
-      <td class="r"><span class="pill ${bc}">${m.margen_pct.toFixed(1)}%</span></td>
-      <td><div class="mbar-track"><div class="mbar-fill" style="width:${w}%;background:${c}"></div></div></td>
+      <td class="r"><strong>${m.margen_eur!=null?m.margen_eur.toFixed(2)+'€':'–'}</strong></td>
+      <td class="r"><span class="pill ${bc}">${m.margen_pct!=null?m.margen_pct.toFixed(1)+'%':'–'}</span></td>
+      <td><div style="height:6px;width:70px;background:var(--bg);border-radius:3px;overflow:hidden;display:inline-block"><div style="height:100%;width:${w}%;background:${c};border-radius:3px"></div></div></td>
     </tr>`;
   }).join('');
 }
 
 // ── STOCK ─────────────────────────────────────────────
-function renderSt() {
-  if (!D) return;
-  const q  = (document.getElementById('srchSt')||{}).value?.toLowerCase()||'';
-  const ff = (document.getElementById('fStFam')||{}).value||'';
-  const fc = gFC();
-  let data = D.stock.filter(s=>s.dias_stock!=null&&s.dias_stock>0);
-  if (q)  data = data.filter(s=>s.producto.toLowerCase().includes(q)||s.tienda.toLowerCase().includes(q));
-  if (ff) data = data.filter(s=>s.familia===ff);
-  if (fc) data = data.filter(s=>s.comercial===fc);
-  data.sort((a,b)=>(b.dias_stock||0)-(a.dias_stock||0));
-  const dotcls = d => d>150?'dot-r':d>90?'dot-y':'dot-g';
-  const estado = d => d>150?'Crítico':d>90?'Atención':'OK';
-  document.getElementById('tbSt').innerHTML = data.slice(0,350).map(s=>`<tr>
-    <td class="name" style="max-width:190px">${s.producto}</td>
+function renderStKPIs(){
+  if(!D)return;
+  const data=filteredStock();
+  const crit=data.filter(s=>s.dias_stock>150).length;
+  const warn=data.filter(s=>s.dias_stock>90&&s.dias_stock<=150).length;
+  const ok=data.filter(s=>s.dias_stock<=90).length;
+  document.getElementById('kpi-stock').innerHTML=`
+    <div class="kpi g"><div class="kpi-l">OK &lt;90d</div><div class="kpi-v">${ok}</div><div class="kpi-s">referencias en zona OK</div></div>
+    <div class="kpi o"><div class="kpi-l">Atención 90–150d</div><div class="kpi-v">${warn}</div><div class="kpi-s">requieren seguimiento</div></div>
+    <div class="kpi r"><div class="kpi-l">Crítico &gt;150d</div><div class="kpi-v">${crit}</div><div class="kpi-s">acción urgente</div></div>`;
+}
+
+function filteredStock(){
+  const q=(document.getElementById('srSt')||{}).value?.toLowerCase()||'';
+  const fg=gFG(), ff=gFF(), fc=gFC(), ft=gFT();
+  let data=D.stock.filter(s=>s.dias_stock!=null&&s.dias_stock>0);
+  if(fc) data=data.filter(s=>s.comercial===fc);
+  if(ft) data=data.filter(s=>s.tienda.toLowerCase()===ft.toLowerCase());
+  if(ff) data=data.filter(s=>s.familia===ff);
+  if(fg) data=data.filter(s=>s.gama===fg);
+  if(q)  data=data.filter(s=>s.producto.toLowerCase().includes(q)||s.tienda.toLowerCase().includes(q)||s.modelo.toLowerCase().includes(q)||s.ref_lm.toLowerCase().includes(q));
+  return data;
+}
+
+function renderSt(){
+  if(!D)return;
+  const data=filteredStock().sort((a,b)=>(b.dias_stock||0)-(a.dias_stock||0));
+  const dc=d=>d>150?'dot dr':d>90?'dot dy':'dot dg';
+  const de=d=>d>150?'Crítico':d>90?'Atención':'OK';
+  document.getElementById('tbSt').innerHTML=data.slice(0,400).map(s=>`<tr>
+    <td class="nm" style="max-width:180px">${s.producto}</td>
+    <td><span class="pill pf">${s.modelo}</span></td>
+    <td><span class="pill pg">${s.ref_lm}</span></td>
+    <td><span class="pill pg">${s.gama||'–'}</span></td>
     <td>${s.tienda}</td>
     <td>${s.comercial}</td>
-    <td><span class="pill gray" style="font-size:10px">${(s.familia||'').replace('Motorizado Jardin','🌿').replace('Electroportatil','🔧')}</span></td>
+    <td><small>${(s.familia||'').replace('Motorizado Jardin','🌿 Jardín').replace('Electroportatil','🔧 Electrop.')}</small></td>
     <td class="r">${fN(s.stock_ud)} ud.</td>
     <td>${dbar(s.dias_stock)}</td>
     <td class="r">${fE(s.sellout_12m)}</td>
-    <td><span class="dot ${dotcls(s.dias_stock)}"></span>${estado(s.dias_stock)}</td>
+    <td><span class="${dc(s.dias_stock)}"></span>${de(s.dias_stock)}</td>
   </tr>`).join('');
+  renderStKPIs();
 }
 </script>
 </body>
